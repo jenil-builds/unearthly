@@ -1,20 +1,20 @@
 run_id,source_id,agent,completed_automatically,manual_interventions,retries,total_tool_calls,distinct_valid_tool_calls,latency_ms,tokens_used,trajectory
-RUN_20261031_001,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.66,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_002,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_003,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_004,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_005,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_006,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_007,SRC_01,TabularPDF_Agent,1,0,1,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_008,SRC_02,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_009,SRC_03,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_010,SRC_04,TabularPDF_Agent,1,0,1,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_011,SRC_06,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_012,SRC_06,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_013,SRC_06,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_014,SRC_06,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_015,SRC_07,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_016,SRC_07,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_001,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.8,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_002,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.54,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_003,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_004,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_005,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_006,SRC_01,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_007,SRC_01,TabularPDF_Agent,1,0,1,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_008,SRC_02,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_009,SRC_03,TabularPDF_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_010,SRC_04,TabularPDF_Agent,1,0,1,1,1,112.52,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_011,SRC_06,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_012,SRC_06,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_013,SRC_06,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_014,SRC_06,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_015,SRC_07,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_016,SRC_07,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_017,SRC_08,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_018,SRC_08,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_019,SRC_09,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
@@ -24,7 +24,7 @@ RUN_20261031_022,SRC_11,LiveMandi_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->L
 RUN_20261031_023,SRC_11,LiveMandi_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->LiveMandi_Agent -> Tool:LiveMandi_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_024,SRC_11,LiveMandi_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->LiveMandi_Agent -> Tool:LiveMandi_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_025,SRC_11,LiveMandi_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->LiveMandi_Agent -> Tool:LiveMandi_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_026,SRC_11,LiveMandi_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->LiveMandi_Agent -> Tool:LiveMandi_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_026,SRC_11,LiveMandi_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->LiveMandi_Agent -> Tool:LiveMandi_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_027,SRC_12,GeoSpatial_Agent,0,1,0,1,1,112.51,420,SupervisorRouter->GeoSpatial_Agent -> Tool:GeoSpatial_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_028,SRC_12,GeoSpatial_Agent,0,1,0,1,1,112.51,420,SupervisorRouter->GeoSpatial_Agent -> Tool:GeoSpatial_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_029,SRC_13,GeoSpatial_Agent,0,1,0,1,1,112.51,420,SupervisorRouter->GeoSpatial_Agent -> Tool:GeoSpatial_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
@@ -33,7 +33,7 @@ RUN_20261031_031,SRC_15,GeoSpatial_Agent,0,1,0,1,1,112.51,420,SupervisorRouter->
 RUN_20261031_032,SRC_15,GeoSpatial_Agent,0,1,0,1,1,112.51,420,SupervisorRouter->GeoSpatial_Agent -> Tool:GeoSpatial_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_033,SURPRISE_01,TabularPDF_Agent,1,0,1,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready
 RUN_20261031_034,SURPRISE_01,TabularPDF_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->TabularPDF_Agent -> Tool:TabularPDF_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_035,SURPRISE_HTML,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_036,SURPRISE_HTML,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_037,SURPRISE_AS_TXT,WebPortal_Agent,1,0,0,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
-RUN_20261031_038,SURPRISE_AS_TXT,WebPortal_Agent,1,0,1,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_035,SURPRISE_HTML,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_036,SURPRISE_HTML,WebPortal_Agent,1,0,0,1,1,112.52,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_037,SURPRISE_AS_TXT,WebPortal_Agent,1,0,0,1,1,112.54,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready
+RUN_20261031_038,SURPRISE_AS_TXT,WebPortal_Agent,1,0,1,1,1,112.51,420,SupervisorRouter->WebPortal_Agent -> Tool:WebPortal_Agent_Extractor -> SchemaNormalizer_Agent -> SelfCorrectionNode:StripFootnoteAndCorruptTokens -> SchemaNormalizer_Agent -> DB_Commit_Ready

@@ -269,7 +269,7 @@ def run_evaluation():
         ["BONUS_EVAL_2", "CrossSourceAgreementEvaluator", "end_to_end", f"{bonus_eval_2:.3f}", "0.80", "1.00", "Bonus +1 pt: Cross-source yield bounds check", 0.0, 0, 0],
     ])
 
-    for out_csv in ["eval/phase2_metrics.csv", "eval/phase2_metrics_new.csv"]:
+    for out_csv in ["eval/phase2_metrics.csv"]:
         with open(out_csv, "w", newline="", encoding="utf-8") as mf:
             w = csv.writer(mf)
             w.writerow(["metric_id", "metric_name", "scope", "value", "floor", "target", "tool_evidence", "latency_ms", "tokens_used", "retry_count"])
