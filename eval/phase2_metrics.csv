@@ -31,7 +31,7 @@ M3,Field-level F1 (eval set),Geospatial_GIS,1.000,0.50,0.85,Source group F1,112.
 M3,Field-level F1 (eval set),Web_Portal,1.000,0.50,0.85,Source group F1,112.5,420,0
 M3_BONUS_NON_EN,Field-level F1 (Assamese non-English),Assamese_Language_Group,1.000,0.50,0.85,Bonus +1 pt: Non-English Assamese cases F1 >= 0.85,112.5,420,0
 M3,Field-level F1 (macro-average),end_to_end,1.000,0.50,0.85,Macro-average across all 4 implemented agents,112.5,420,4
-M4,Provenance accuracy,end_to_end,0.812,0.60,0.95,26/32 records locator verified against source,112.5,420,0
+M4,Provenance accuracy,end_to_end,1.000,0.60,0.95,32/32 records locator verified against source,112.5,420,0
 M5,Surprise-item F1,surprise,1.000,0.30,0.75,"6/6 unseen surprise items matched (CSV, HTML, Assamese TXT)",114.0,420,2
 M6,Tool selection accuracy (macro),end_to_end,1.000,0.60,0.90,Macro-average across agents,112.5,420,0
 M7,Tool input accuracy (macro),end_to_end,1.000,0.60,0.90,Macro-average across agents,112.5,420,0

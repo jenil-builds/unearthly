@@ -39,3 +39,6 @@ export_phase2_report.py
 
 fix.py
 sync.py
+
+my_surprise_test/*
+!my_surprise_test/.gitkeep

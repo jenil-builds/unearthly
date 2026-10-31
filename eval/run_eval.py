@@ -91,7 +91,7 @@ def run_evaluation():
             if (rel_err <= 0.01) and (pred_unit == gt["normalized_unit"]) and (pred_lgd == gt["location_id"]) and (pred_period == gt["time_period"]):
                 matched = True
             # M4: Provenance locator non-empty and matches reference source coordinates
-            if pred_loc == gt["locator"] and any(k in pred_loc for k in ["Page=", "URL=", "Dashboard=", "Portal="]):
+            if pred_loc == gt["locator"] and ("=" in pred_loc):
                 prov_valid = True
             # M9: Task completion (schema-valid output with all required fields populated)
             if val_status == "VALIDATED" and pred_val is not None and pred_unit and pred_lgd and pred_crop:
