@@ -1,0 +1,19 @@
+{
+  "case_id": "case_21",
+  "source_id": "SRC_11",
+  "source_group": "Database_Dashboard",
+  "expected_agent": "LiveMandi_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_11 | URL=amiu.aau.ac.in;Row=1] Crop=Potato | Variety=Local Red | District=Jorhat | Period=2026-10-18 | Modal_Mandi_Price=2,450 Rs/Quintal",
+  "structured_source_row": {
+    "source_id": "SRC_11",
+    "locator": "URL=amiu.aau.ac.in;Row=1",
+    "crop_name": "Potato",
+    "variety_name": "Local Red",
+    "district_raw": "Jorhat",
+    "time_period": "2026-10-18",
+    "metric_name": "Modal_Mandi_Price",
+    "raw_value": "2,450",
+    "raw_unit": "Rs/Quintal"
+  }
+}

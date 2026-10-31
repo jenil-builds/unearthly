@@ -1,0 +1,24 @@
+{
+  "case_id": "case_31",
+  "source_id": "SRC_15",
+  "expected_agent": "GeoSpatial_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->GeoSpatial_Agent",
+    "Tool:GeoSpatial_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Land Use Land Cover",
+    "variety_name": "Assam Agri Cropland Mask",
+    "canonical_district": "Assam (State Total)",
+    "location_id": "LGD_AS_00",
+    "time_period": "2022-23",
+    "metric_name": "Spatial_Resolution_Meters",
+    "normalized_value": 24.0,
+    "normalized_unit": "meters",
+    "locator": "WMS=nesdr.gov.in;Dataset=148_LULC"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

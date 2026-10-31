@@ -1,0 +1,19 @@
+{
+  "case_id": "case_30",
+  "source_id": "SRC_14",
+  "source_group": "Geospatial_GIS",
+  "expected_agent": "GeoSpatial_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_14 | WMS=bhoomigeoportal-nbsslup.in;Layer=Soil_pH] Crop=Soil Resource Layer | Variety=Alluvial Acidic Soil | District=Kamrup | Period=2023 | Mean_Topsoil_pH=5.4 pH",
+  "structured_source_row": {
+    "source_id": "SRC_14",
+    "locator": "WMS=bhoomigeoportal-nbsslup.in;Layer=Soil_pH",
+    "crop_name": "Soil Resource Layer",
+    "variety_name": "Alluvial Acidic Soil",
+    "district_raw": "Kamrup",
+    "time_period": "2023",
+    "metric_name": "Mean_Topsoil_pH",
+    "raw_value": "5.4",
+    "raw_unit": "pH"
+  }
+}

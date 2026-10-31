@@ -1,0 +1,24 @@
+{
+  "case_id": "case_30",
+  "source_id": "SRC_14",
+  "expected_agent": "GeoSpatial_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->GeoSpatial_Agent",
+    "Tool:GeoSpatial_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Soil Resource Layer",
+    "variety_name": "Alluvial Acidic Soil",
+    "canonical_district": "Kamrup",
+    "location_id": "LGD_AS_291",
+    "time_period": "2023",
+    "metric_name": "Mean_Topsoil_pH",
+    "normalized_value": 5.4,
+    "normalized_unit": "pH",
+    "locator": "WMS=bhoomigeoportal-nbsslup.in;Layer=Soil_pH"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

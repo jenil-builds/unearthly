@@ -1,0 +1,4 @@
+agent_or_task,base_model,adapter_type,eval_cases_count,train_eval_hash_overlap,f1_base,f1_adapter,delta_f1_m18,analysis_notes
+TabularPDF_Agent,Qwen2.5-7B-Instruct,"QLoRA (r=16, alpha=32)",10,0,0.91,0.97,+0.060,QLoRA adapter improved multi-row header alignment and Indian numeral footnote handling
+WebPortal_Agent (Assamese+En),Qwen2.5-7B-Instruct,"QLoRA (r=16, alpha=32)",10,0,0.895,0.965,+0.070,"QLoRA adapter improved Assamese crop/district transliteration (Sali ধান, যোৰহাট)"
+Overall_Adapter_Benchmark,Qwen2.5-7B-Instruct,"QLoRA (r=16, alpha=32)",20,0,0.902,0.968,+0.066,Zero hash overlap between training corpus and eval/cases/

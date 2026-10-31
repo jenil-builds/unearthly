@@ -1,0 +1,19 @@
+{
+  "case_id": "case_17",
+  "source_id": "SRC_08",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "as",
+  "raw_input_snippet": "[SRC_08 | URL=rkbassam.aau.ac.in/factsheets;Section=Sub1] Crop=Rice (Paddy) | Variety=ৰঞ্জিত চাব-১ (Ranjit Sub-1) | District=Jorhat | Period=2024 | Submergence_Tolerance_Days=14 days",
+  "structured_source_row": {
+    "source_id": "SRC_08",
+    "locator": "URL=rkbassam.aau.ac.in/factsheets;Section=Sub1",
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "ৰঞ্জিত চাব-১ (Ranjit Sub-1)",
+    "district_raw": "Jorhat",
+    "time_period": "2024",
+    "metric_name": "Submergence_Tolerance_Days",
+    "raw_value": "14",
+    "raw_unit": "days"
+  }
+}

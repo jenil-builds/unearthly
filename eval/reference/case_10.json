@@ -1,0 +1,26 @@
+{
+  "case_id": "case_10",
+  "source_id": "SRC_04",
+  "expected_agent": "TabularPDF_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->TabularPDF_Agent",
+    "Tool:TabularPDF_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "SelfCorrectionNode:StripFootnoteSymbols",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Jute",
+    "variety_name": "Capsularis",
+    "canonical_district": "Nagaon",
+    "location_id": "LGD_AS_297",
+    "time_period": "2022-23",
+    "metric_name": "Area",
+    "normalized_value": 64033.0,
+    "normalized_unit": "ha",
+    "locator": "Page=1;Table=11(A).2;Row=4"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

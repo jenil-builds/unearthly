@@ -1,0 +1,19 @@
+{
+  "case_id": "case_13",
+  "source_id": "SRC_06",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_06 | URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Pulses_1] Crop=Grass Pea (Khesari) | Variety=Ratan (Bio L-212) | District=Nagaon | Period=2023 | Recommended_Yield_Rainfed=11.0 q/ha",
+  "structured_source_row": {
+    "source_id": "SRC_06",
+    "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Pulses_1",
+    "crop_name": "Grass Pea (Khesari)",
+    "variety_name": "Ratan (Bio L-212)",
+    "district_raw": "Nagaon",
+    "time_period": "2023",
+    "metric_name": "Recommended_Yield_Rainfed",
+    "raw_value": "11.0",
+    "raw_unit": "q/ha"
+  }
+}

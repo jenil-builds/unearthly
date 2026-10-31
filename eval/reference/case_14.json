@@ -1,0 +1,24 @@
+{
+  "case_id": "case_14",
+  "source_id": "SRC_06",
+  "expected_agent": "WebPortal_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->WebPortal_Agent",
+    "Tool:WebPortal_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rapeseed & Mustard",
+    "variety_name": "TS-38",
+    "canonical_district": "Kokrajhar",
+    "location_id": "LGD_AS_294",
+    "time_period": "2023",
+    "metric_name": "Recommended_Yield_Rainfed",
+    "normalized_value": 1250.0,
+    "normalized_unit": "kg/ha",
+    "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Mustard_1"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

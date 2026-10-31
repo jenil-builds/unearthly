@@ -1,0 +1,19 @@
+{
+  "case_id": "case_29",
+  "source_id": "SRC_13",
+  "source_group": "Geospatial_GIS",
+  "expected_agent": "GeoSpatial_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_13 | WMS=rkbassam.aau.ac.in/web-gis;Layer=FloodProne] Crop=Rice (Paddy) | Variety=Flood-Prone Agro-Zone | District=Jorhat | Period=2024 | Map_Scale_Denominator=50000 scale",
+  "structured_source_row": {
+    "source_id": "SRC_13",
+    "locator": "WMS=rkbassam.aau.ac.in/web-gis;Layer=FloodProne",
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Flood-Prone Agro-Zone",
+    "district_raw": "Jorhat",
+    "time_period": "2024",
+    "metric_name": "Map_Scale_Denominator",
+    "raw_value": "50000",
+    "raw_unit": "scale"
+  }
+}

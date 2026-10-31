@@ -1,0 +1,19 @@
+{
+  "case_id": "case_05",
+  "source_id": "SRC_01",
+  "source_group": "Document_PDF",
+  "expected_agent": "TabularPDF_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_01 | Page=3;Table=1.01;Row=3] Crop=Rice (Paddy) | Variety=Summer Paddy (Boro) | District=Assam (State Total) | Period=2003-04 | Area=3,19,480 Hectares",
+  "structured_source_row": {
+    "source_id": "SRC_01",
+    "locator": "Page=3;Table=1.01;Row=3",
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Summer Paddy (Boro)",
+    "district_raw": "Assam (State Total)",
+    "time_period": "2003-04",
+    "metric_name": "Area",
+    "raw_value": "3,19,480",
+    "raw_unit": "Hectares"
+  }
+}

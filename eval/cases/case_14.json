@@ -1,0 +1,19 @@
+{
+  "case_id": "case_14",
+  "source_id": "SRC_06",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_06 | URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Mustard_1] Crop=Rapeseed & Mustard | Variety=TS-38 | District=Kokrajhar | Period=2023 | Recommended_Yield_Rainfed=12.5 q/ha",
+  "structured_source_row": {
+    "source_id": "SRC_06",
+    "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Mustard_1",
+    "crop_name": "Rapeseed & Mustard",
+    "variety_name": "TS-38",
+    "district_raw": "Kokrajhar",
+    "time_period": "2023",
+    "metric_name": "Recommended_Yield_Rainfed",
+    "raw_value": "12.5",
+    "raw_unit": "q/ha"
+  }
+}

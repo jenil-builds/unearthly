@@ -1,0 +1,26 @@
+{
+  "case_id": "case_07",
+  "source_id": "SRC_01",
+  "expected_agent": "TabularPDF_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->TabularPDF_Agent",
+    "Tool:TabularPDF_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "SelfCorrectionNode:StripFootnoteSymbols",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Blackgram (Matikalai)",
+    "variety_name": "General",
+    "canonical_district": "Sivasagar",
+    "location_id": "LGD_AS_300",
+    "time_period": "2012-13",
+    "metric_name": "Area",
+    "normalized_value": 48527.0,
+    "normalized_unit": "ha",
+    "locator": "Page=4;Table=1.08;Row=10"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

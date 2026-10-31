@@ -1,0 +1,19 @@
+{
+  "case_id": "case_25",
+  "source_id": "SRC_11",
+  "source_group": "Database_Dashboard",
+  "expected_agent": "LiveMandi_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_11 | URL=amiu.aau.ac.in;Row=5] Crop=Cabbage | Variety=Winter Fresh | District=Darrang | Period=2026-10-18 | Modal_Mandi_Price=1,850 Rs/Quintal",
+  "structured_source_row": {
+    "source_id": "SRC_11",
+    "locator": "URL=amiu.aau.ac.in;Row=5",
+    "crop_name": "Cabbage",
+    "variety_name": "Winter Fresh",
+    "district_raw": "Darrang",
+    "time_period": "2026-10-18",
+    "metric_name": "Modal_Mandi_Price",
+    "raw_value": "1,850",
+    "raw_unit": "Rs/Quintal"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "case_id": "case_32",
+  "source_id": "SRC_15",
+  "expected_agent": "GeoSpatial_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->GeoSpatial_Agent",
+    "Tool:GeoSpatial_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Boro Satellite Mask",
+    "canonical_district": "Nagaon",
+    "location_id": "LGD_AS_297",
+    "time_period": "2023-24",
+    "metric_name": "Mapped_Rice_Area",
+    "normalized_value": 68400.0,
+    "normalized_unit": "ha",
+    "locator": "WMS=astec.assam.gov.in;Layer=BoroRice_CropMask"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

@@ -1,0 +1,38 @@
+# Secrets and environment variables
+.env
+.env.*
+!.env.example
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE settings
+.vscode/
+.idea/
+
+
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Generated databases (ignore only if not meant to be shared)
+# *.db
+# *.sqlite3
+
+PHASE2_COMPLETE_BUNDLE.txt
+Team3_Assam_Phase2_Submission_Report.txt
+      
+build_phase2_project.py
+export_phase2_report.py

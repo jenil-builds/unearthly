@@ -1,0 +1,19 @@
+{
+  "case_id": "case_20",
+  "source_id": "SRC_10",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_10 | URL=apeda.gov.in/Assam;Section=ExportCluster] Crop=Bhut Jolokia (King Chilli) | Variety=Assam Export Cluster | District=Golaghat | Period=2024-25 | Export_Shipment_Volume=120.0 MT",
+  "structured_source_row": {
+    "source_id": "SRC_10",
+    "locator": "URL=apeda.gov.in/Assam;Section=ExportCluster",
+    "crop_name": "Bhut Jolokia (King Chilli)",
+    "variety_name": "Assam Export Cluster",
+    "district_raw": "Golaghat",
+    "time_period": "2024-25",
+    "metric_name": "Export_Shipment_Volume",
+    "raw_value": "120.0",
+    "raw_unit": "MT"
+  }
+}

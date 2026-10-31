@@ -1,0 +1,24 @@
+{
+  "case_id": "case_12",
+  "source_id": "SRC_06",
+  "expected_agent": "WebPortal_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->WebPortal_Agent",
+    "Tool:WebPortal_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Wheat",
+    "variety_name": "Sonalika",
+    "canonical_district": "Barpeta",
+    "location_id": "LGD_AS_280",
+    "time_period": "2023",
+    "metric_name": "Recommended_Yield_Rainfed",
+    "normalized_value": 1900.0,
+    "normalized_unit": "kg/ha",
+    "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Wheat_2"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

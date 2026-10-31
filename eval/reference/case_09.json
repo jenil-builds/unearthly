@@ -1,0 +1,24 @@
+{
+  "case_id": "case_09",
+  "source_id": "SRC_03",
+  "expected_agent": "TabularPDF_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->TabularPDF_Agent",
+    "Tool:TabularPDF_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Cold Storage",
+    "variety_name": "ASAMB Kharupetia",
+    "canonical_district": "Darrang (Kharupetia)",
+    "location_id": "LGD_AS_283",
+    "time_period": "Current",
+    "metric_name": "Cold_Storage_Capacity",
+    "normalized_value": 5000.0,
+    "normalized_unit": "tonnes",
+    "locator": "Page=1;Table=1;Row=1"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

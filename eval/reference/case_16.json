@@ -1,0 +1,24 @@
+{
+  "case_id": "case_16",
+  "source_id": "SRC_07",
+  "expected_agent": "WebPortal_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->WebPortal_Agent",
+    "Tool:WebPortal_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rapeseed & Mustard",
+    "variety_name": "সৰিয়হ (Mustard)",
+    "canonical_district": "Cachar",
+    "location_id": "LGD_AS_282",
+    "time_period": "2025-26",
+    "metric_name": "Seed_Rate_Recommendation",
+    "normalized_value": 10.0,
+    "normalized_unit": "kg/ha",
+    "locator": "URL=kvkcachar.aau.ac.in/agro.html;Section=GKMS_As_2"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

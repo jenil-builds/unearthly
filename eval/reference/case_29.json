@@ -1,0 +1,24 @@
+{
+  "case_id": "case_29",
+  "source_id": "SRC_13",
+  "expected_agent": "GeoSpatial_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->GeoSpatial_Agent",
+    "Tool:GeoSpatial_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Flood-Prone Agro-Zone",
+    "canonical_district": "Jorhat",
+    "location_id": "LGD_AS_290",
+    "time_period": "2024",
+    "metric_name": "Map_Scale_Denominator",
+    "normalized_value": 50000.0,
+    "normalized_unit": "scale",
+    "locator": "WMS=rkbassam.aau.ac.in/web-gis;Layer=FloodProne"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

@@ -1,0 +1,16 @@
+source_id,source_name,url,source_group,period,assigned_agent,status,known_limitations
+SRC_01,DES Assam - Ten Major Crops in Assam,https://des.assam.gov.in/sites/default/files/swf_utility_folder/departments/ecostat_medhassu_in_oid_3/menu/document/ten_major_crops_1.pdf,Document_PDF,2003-04 to 2012-13,TabularPDF_Agent,done,Series ends 2012-13; multi-row headers and footnote markers
+SRC_02,ICAR-IIRR - Released Rice Varieties and Hybrids,https://www.icar-iirr.org/3.ICAR-IIRR_Varietiesandhybrids_Available_for_Commercialization_through_Licensing.pdf,Document_PDF,1997-2013,TabularPDF_Agent,done,National table; requires Assam agro-climatic filtering
+SRC_03,ASAMB - Cold Storage Facilities List,https://asamb.assam.gov.in/sites/default/files/swf_utility_folder/departments/asamb_medhassu_in_oid_7/menu/information_and_services/cold_storage_under_asamb.pdf,Document_PDF,Current,TabularPDF_Agent,done,Covers 18000 MT public ASAMB units only
+SRC_04,DirAgri Assam - Statistical Table 11(A).2,https://diragri.assam.gov.in/sites/default/files/swf_utility_folder/departments/diragri_medhassu_in_oid_4/portlet/level_2/11%28A%29.2.pdf,Document_PDF,2022-23,TabularPDF_Agent,done,Contains footnote symbols in numeric columns
+SRC_05,IP India - State-wise Registered GI of India,https://ipindia.gov.in/frontend/pdf/gi/registered/State_wise_Registered_GI_of_India.pdf,Document_PDF,Current,TabularPDF_Agent,done,National registry; filtered for Assam Agri GIs
+SRC_06,AAU - Package of Practices for Rabi Crops 2023,https://kvkkokrajhar.aau.ac.in/pop.php,Web_Portal,2023,WebPortal_Agent,done,Rabi season potential yields only
+SRC_07,KVK Cachar - GKMS Agromet Advisory Bulletins,https://kvkcachar.aau.ac.in/agro.html,Web_Portal,2025-26,WebPortal_Agent,done,Bilingual Assamese/English Barak Valley advisories
+SRC_08,RKB Assam - Rice Knowledge Bank Factsheets,https://rkbassam.aau.ac.in/factsheets,Web_Portal,Current,WebPortal_Agent,done,Semi-structured agronomic factsheets
+SRC_09,DirAgri Assam - Agricultural Statistics Portal,https://diragri.assam.gov.in/information-services/agricultural-statistics,Web_Portal,2023-24,WebPortal_Agent,done,NIC SSL intermediate certificate chain issues
+SRC_10,APEDA - Assam Agri Export State Profile,https://apeda.gov.in/Assam,Web_Portal,2024-25,WebPortal_Agent,done,State-level export cluster metrics
+SRC_11,AMIU (AAU Jorhat) - Live Market Dashboard,https://amiu.aau.ac.in/,Database_Dashboard,2023-2026,LiveMandi_Agent,done,Live rolling ticker; no bulk historical archive
+SRC_12,AAU-IRRI APART Web GIS - Rice-Fallow Mapping,https://apartgis.aau.ac.in/,Geospatial_GIS,2017-2025,GeoSpatial_Agent,partial,Metadata extracted; raw GeoTIFF raster parsing in Phase 3
+SRC_13,RKB Assam - Web GIS Portal,https://rkbassam.aau.ac.in/web-gis,Geospatial_GIS,Current,GeoSpatial_Agent,partial,WMS capabilities extracted; raster stats in Phase 3
+SRC_14,NBSS&LUP BHOOMI Geoportal - Assam Soil,https://bhoomigeoportal-nbsslup.in/BHOOMI_StateWise/Assam.php,Geospatial_GIS,Current,GeoSpatial_Agent,partial,Metadata extracted; spatial polygon query in Phase 3
+SRC_15,NESDR & ASTEC Remote Sensing Datasets,https://www.nesdr.gov.in/search/og_group_ref/148/type/dataset?sort_by=changed,Geospatial_GIS,Multi-year,GeoSpatial_Agent,partial,Catalog metadata extracted; raster tiling in Phase 3

@@ -1,0 +1,19 @@
+{
+  "case_id": "case_19",
+  "source_id": "SRC_09",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_09 | URL=diragri.assam.gov.in;Table=Hort_Potato] Crop=Potato | Variety=Kufri Jyoti | District=Sonitpur | Period=2023-24 | Area=77,894 Hectares",
+  "structured_source_row": {
+    "source_id": "SRC_09",
+    "locator": "URL=diragri.assam.gov.in;Table=Hort_Potato",
+    "crop_name": "Potato",
+    "variety_name": "Kufri Jyoti",
+    "district_raw": "Sonitpur",
+    "time_period": "2023-24",
+    "metric_name": "Area",
+    "raw_value": "77,894",
+    "raw_unit": "Hectares"
+  }
+}

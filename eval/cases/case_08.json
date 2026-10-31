@@ -1,0 +1,19 @@
+{
+  "case_id": "case_08",
+  "source_id": "SRC_02",
+  "source_group": "Document_PDF",
+  "expected_agent": "TabularPDF_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_02 | Page=2;Table=1;Row=14] Crop=Rice (Paddy) | Variety=DRR Dhan 42 | District=Assam (State Total) | Period=2014 | Potential_Yield=52.0 q/ha",
+  "structured_source_row": {
+    "source_id": "SRC_02",
+    "locator": "Page=2;Table=1;Row=14",
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "DRR Dhan 42",
+    "district_raw": "Assam (State Total)",
+    "time_period": "2014",
+    "metric_name": "Potential_Yield",
+    "raw_value": "52.0",
+    "raw_unit": "q/ha"
+  }
+}

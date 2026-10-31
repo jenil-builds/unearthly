@@ -1,0 +1,24 @@
+{
+  "case_id": "case_27",
+  "source_id": "SRC_12",
+  "expected_agent": "GeoSpatial_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->GeoSpatial_Agent",
+    "Tool:GeoSpatial_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rice-Fallow Spatial Layer",
+    "variety_name": "Sentinel-1/2 SAR+Optical",
+    "canonical_district": "Assam (State Total)",
+    "location_id": "LGD_AS_00",
+    "time_period": "2024-25",
+    "metric_name": "Spatial_Resolution_Meters",
+    "normalized_value": 10.0,
+    "normalized_unit": "meters",
+    "locator": "WMS=apartgis.aau.ac.in;Layer=RiceFallow_2024"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

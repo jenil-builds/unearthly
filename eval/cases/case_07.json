@@ -1,0 +1,19 @@
+{
+  "case_id": "case_07",
+  "source_id": "SRC_01",
+  "source_group": "Document_PDF",
+  "expected_agent": "TabularPDF_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_01 | Page=4;Table=1.08;Row=10] Crop=Blackgram (Matikalai) | Variety=General | District=Sivasagar | Period=2012-13 | Area=48,527* Hectares",
+  "structured_source_row": {
+    "source_id": "SRC_01",
+    "locator": "Page=4;Table=1.08;Row=10",
+    "crop_name": "Blackgram (Matikalai)",
+    "variety_name": "General",
+    "district_raw": "Sivasagar",
+    "time_period": "2012-13",
+    "metric_name": "Area",
+    "raw_value": "48,527*",
+    "raw_unit": "Hectares"
+  }
+}

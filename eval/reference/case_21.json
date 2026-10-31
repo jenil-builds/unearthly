@@ -1,0 +1,24 @@
+{
+  "case_id": "case_21",
+  "source_id": "SRC_11",
+  "expected_agent": "LiveMandi_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->LiveMandi_Agent",
+    "Tool:LiveMandi_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Potato",
+    "variety_name": "Local Red",
+    "canonical_district": "Jorhat",
+    "location_id": "LGD_AS_290",
+    "time_period": "2026-10-18",
+    "metric_name": "Modal_Mandi_Price",
+    "normalized_value": 2450.0,
+    "normalized_unit": "Rs/Quintal",
+    "locator": "URL=amiu.aau.ac.in;Row=1"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

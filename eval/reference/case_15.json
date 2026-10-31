@@ -1,0 +1,24 @@
+{
+  "case_id": "case_15",
+  "source_id": "SRC_07",
+  "expected_agent": "WebPortal_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->WebPortal_Agent",
+    "Tool:WebPortal_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "শালি ধান (Sali Rice)",
+    "canonical_district": "Cachar",
+    "location_id": "LGD_AS_282",
+    "time_period": "2025-26",
+    "metric_name": "GKMS_Rainfall_Advisory_Threshold",
+    "normalized_value": 45.0,
+    "normalized_unit": "mm",
+    "locator": "URL=kvkcachar.aau.ac.in/agro.html;Section=GKMS_As_1"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

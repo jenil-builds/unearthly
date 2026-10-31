@@ -1,0 +1,19 @@
+{
+  "case_id": "case_09",
+  "source_id": "SRC_03",
+  "source_group": "Document_PDF",
+  "expected_agent": "TabularPDF_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_03 | Page=1;Table=1;Row=1] Crop=Cold Storage | Variety=ASAMB Kharupetia | District=Darrang (Kharupetia) | Period=Current | Cold_Storage_Capacity=5,000 MT",
+  "structured_source_row": {
+    "source_id": "SRC_03",
+    "locator": "Page=1;Table=1;Row=1",
+    "crop_name": "Cold Storage",
+    "variety_name": "ASAMB Kharupetia",
+    "district_raw": "Darrang (Kharupetia)",
+    "time_period": "Current",
+    "metric_name": "Cold_Storage_Capacity",
+    "raw_value": "5,000",
+    "raw_unit": "MT"
+  }
+}

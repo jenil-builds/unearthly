@@ -1,0 +1,3 @@
+উৎস: কৃষি বিজ্ঞান কেন্দ্ৰ, অসম (Surprise Assamese Input 03)
+শস্য: শালি ধান (Rice - Sali Paddy) | জাত: ৰঞ্জিত চাব-১ (Ranjit Sub-1) | জিলা: যোৰহাট (Jorhat) | বৰ্ষ: 2025-26 | উৎপাদন (Potential_Yield): 54.5 q/ha
+শস্য: সৰিয়হ (Rapeseed & Mustard) | জাত: TS-46 | জিলা: কামৰূপ (Kamrup) | বৰ্ষ: 2025-26 | মাটিকালি (Area): 18,450* Hectares

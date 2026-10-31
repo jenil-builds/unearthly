@@ -1,0 +1,19 @@
+{
+  "case_id": "case_31",
+  "source_id": "SRC_15",
+  "source_group": "Geospatial_GIS",
+  "expected_agent": "GeoSpatial_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_15 | WMS=nesdr.gov.in;Dataset=148_LULC] Crop=Land Use Land Cover | Variety=Assam Agri Cropland Mask | District=Assam (State Total) | Period=2022-23 | Spatial_Resolution_Meters=24.0 meters",
+  "structured_source_row": {
+    "source_id": "SRC_15",
+    "locator": "WMS=nesdr.gov.in;Dataset=148_LULC",
+    "crop_name": "Land Use Land Cover",
+    "variety_name": "Assam Agri Cropland Mask",
+    "district_raw": "Assam (State Total)",
+    "time_period": "2022-23",
+    "metric_name": "Spatial_Resolution_Meters",
+    "raw_value": "24.0",
+    "raw_unit": "meters"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "case_id": "case_11",
+  "source_id": "SRC_06",
+  "expected_agent": "WebPortal_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->WebPortal_Agent",
+    "Tool:WebPortal_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Wheat",
+    "variety_name": "DBW-14",
+    "canonical_district": "Kamrup",
+    "location_id": "LGD_AS_291",
+    "time_period": "2023",
+    "metric_name": "Recommended_Yield_Irrigated",
+    "normalized_value": 3250.0,
+    "normalized_unit": "kg/ha",
+    "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Wheat_1"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

@@ -1,0 +1,3 @@
+source_id,locator,crop_name,variety_name,district_raw,time_period,metric_name,raw_value,raw_unit
+SURPRISE_01,Page=1;Table=S1;Row=1,Rice (Paddy),Winter Paddy (Sali),Sibsagar,2024-25,Area,1,14,200*,Hectares
+SURPRISE_01,Page=1;Table=S1;Row=2,Rapeseed & Mustard,TS-38,Nowgong,2024-25,Production,42,800,Tonnes

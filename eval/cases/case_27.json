@@ -1,0 +1,19 @@
+{
+  "case_id": "case_27",
+  "source_id": "SRC_12",
+  "source_group": "Geospatial_GIS",
+  "expected_agent": "GeoSpatial_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_12 | WMS=apartgis.aau.ac.in;Layer=RiceFallow_2024] Crop=Rice-Fallow Spatial Layer | Variety=Sentinel-1/2 SAR+Optical | District=Assam (State Total) | Period=2024-25 | Spatial_Resolution_Meters=10.0 meters",
+  "structured_source_row": {
+    "source_id": "SRC_12",
+    "locator": "WMS=apartgis.aau.ac.in;Layer=RiceFallow_2024",
+    "crop_name": "Rice-Fallow Spatial Layer",
+    "variety_name": "Sentinel-1/2 SAR+Optical",
+    "district_raw": "Assam (State Total)",
+    "time_period": "2024-25",
+    "metric_name": "Spatial_Resolution_Meters",
+    "raw_value": "10.0",
+    "raw_unit": "meters"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "case_id": "case_16",
+  "source_id": "SRC_07",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "as",
+  "raw_input_snippet": "[SRC_07 | URL=kvkcachar.aau.ac.in/agro.html;Section=GKMS_As_2] Crop=Rapeseed & Mustard | Variety=সৰিয়হ (Mustard) | District=Cachar | Period=2025-26 | Seed_Rate_Recommendation=10.0 kg/ha",
+  "structured_source_row": {
+    "source_id": "SRC_07",
+    "locator": "URL=kvkcachar.aau.ac.in/agro.html;Section=GKMS_As_2",
+    "crop_name": "Rapeseed & Mustard",
+    "variety_name": "সৰিয়হ (Mustard)",
+    "district_raw": "Cachar",
+    "time_period": "2025-26",
+    "metric_name": "Seed_Rate_Recommendation",
+    "raw_value": "10.0",
+    "raw_unit": "kg/ha"
+  }
+}

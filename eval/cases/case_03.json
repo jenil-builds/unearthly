@@ -1,0 +1,19 @@
+{
+  "case_id": "case_03",
+  "source_id": "SRC_01",
+  "source_group": "Document_PDF",
+  "expected_agent": "TabularPDF_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_01 | Page=3;Table=1.01;Row=1] Crop=Rice (Paddy) | Variety=Winter Paddy (Sali) | District=Assam (State Total) | Period=2003-04 | Value=2,32,806 Rs. Lakh",
+  "structured_source_row": {
+    "source_id": "SRC_01",
+    "locator": "Page=3;Table=1.01;Row=1",
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Winter Paddy (Sali)",
+    "district_raw": "Assam (State Total)",
+    "time_period": "2003-04",
+    "metric_name": "Value",
+    "raw_value": "2,32,806",
+    "raw_unit": "Rs. Lakh"
+  }
+}

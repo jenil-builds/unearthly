@@ -1,0 +1,19 @@
+{
+  "case_id": "case_11",
+  "source_id": "SRC_06",
+  "source_group": "Web_Portal",
+  "expected_agent": "WebPortal_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_06 | URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Wheat_1] Crop=Wheat | Variety=DBW-14 | District=Kamrup | Period=2023 | Recommended_Yield_Irrigated=32.5 q/ha",
+  "structured_source_row": {
+    "source_id": "SRC_06",
+    "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Wheat_1",
+    "crop_name": "Wheat",
+    "variety_name": "DBW-14",
+    "district_raw": "Kamrup",
+    "time_period": "2023",
+    "metric_name": "Recommended_Yield_Irrigated",
+    "raw_value": "32.5",
+    "raw_unit": "q/ha"
+  }
+}

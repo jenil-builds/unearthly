@@ -1,0 +1,19 @@
+{
+  "case_id": "case_28",
+  "source_id": "SRC_12",
+  "source_group": "Geospatial_GIS",
+  "expected_agent": "GeoSpatial_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_12 | WMS=apartgis.aau.ac.in;Layer=KharifRice_Area] Crop=Rice (Paddy) | Variety=Kharif Satellite Mask | District=Assam (State Total) | Period=2023-24 | Mapped_Rice_Area=18,45,000 Hectares",
+  "structured_source_row": {
+    "source_id": "SRC_12",
+    "locator": "WMS=apartgis.aau.ac.in;Layer=KharifRice_Area",
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Kharif Satellite Mask",
+    "district_raw": "Assam (State Total)",
+    "time_period": "2023-24",
+    "metric_name": "Mapped_Rice_Area",
+    "raw_value": "18,45,000",
+    "raw_unit": "Hectares"
+  }
+}

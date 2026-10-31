@@ -1,0 +1,24 @@
+{
+  "case_id": "case_28",
+  "source_id": "SRC_12",
+  "expected_agent": "GeoSpatial_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->GeoSpatial_Agent",
+    "Tool:GeoSpatial_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Kharif Satellite Mask",
+    "canonical_district": "Assam (State Total)",
+    "location_id": "LGD_AS_00",
+    "time_period": "2023-24",
+    "metric_name": "Mapped_Rice_Area",
+    "normalized_value": 1845000.0,
+    "normalized_unit": "ha",
+    "locator": "WMS=apartgis.aau.ac.in;Layer=KharifRice_Area"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}

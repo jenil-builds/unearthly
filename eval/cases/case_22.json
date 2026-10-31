@@ -1,0 +1,19 @@
+{
+  "case_id": "case_22",
+  "source_id": "SRC_11",
+  "source_group": "Database_Dashboard",
+  "expected_agent": "LiveMandi_Agent",
+  "language": "en",
+  "raw_input_snippet": "[SRC_11 | URL=amiu.aau.ac.in;Row=2] Crop=Tomato | Variety=Hybrid | District=Kamrup | Period=2026-10-18 | Modal_Mandi_Price=3,100 Rs/Quintal",
+  "structured_source_row": {
+    "source_id": "SRC_11",
+    "locator": "URL=amiu.aau.ac.in;Row=2",
+    "crop_name": "Tomato",
+    "variety_name": "Hybrid",
+    "district_raw": "Kamrup",
+    "time_period": "2026-10-18",
+    "metric_name": "Modal_Mandi_Price",
+    "raw_value": "3,100",
+    "raw_unit": "Rs/Quintal"
+  }
+}

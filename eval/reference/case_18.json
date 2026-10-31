@@ -1,0 +1,24 @@
+{
+  "case_id": "case_18",
+  "source_id": "SRC_08",
+  "expected_agent": "WebPortal_Agent",
+  "expected_trajectory": [
+    "SupervisorRouter->WebPortal_Agent",
+    "Tool:WebPortal_Agent_Extractor",
+    "SchemaNormalizer_Agent",
+    "DB_Commit_Ready"
+  ],
+  "ground_truth_record": {
+    "crop_name": "Rice (Paddy)",
+    "variety_name": "Kanaklata (Boro)",
+    "canonical_district": "Jorhat",
+    "location_id": "LGD_AS_290",
+    "time_period": "2024",
+    "metric_name": "Potential_Yield",
+    "normalized_value": 5500.0,
+    "normalized_unit": "kg/ha",
+    "locator": "URL=rkbassam.aau.ac.in/factsheets;Section=Boro"
+  },
+  "human_judge_groundedness": 1.0,
+  "human_judge_task_completion": 1.0
+}
