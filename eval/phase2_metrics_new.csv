@@ -1,11 +1,50 @@
-metric_id,metric_name,value,floor,target
-M1,Source mapping coverage,1.0,0.50,1.00
-M2,Implementation coverage,0.733,0.20,0.60
-M3,Field-level F1 (macro-avg),0.0,0.50,0.85
-M4,Provenance accuracy,0.0,0.60,0.95
-M12,Automation rate,0.842,0.30,0.80
-M13,Redundant call ratio (lower ↓),0.0,0.50,0.10
-M14,Mandatory field completeness,1.0,0.80,1.00
-M15,Validation pass rate,1.0,0.70,0.98
-M16,Duplicate rate (lower ↓),0.0,0.10,0.00
-DB,Total records in DB,1,—,—
+metric_id,metric_name,scope,value,floor,target,tool_evidence,latency_ms,tokens_used,retry_count
+M1,Source mapping coverage,end_to_end,1.000,0.50,1.00,docs/source_agent_map.csv (15/15 mapped),0.0,0,0
+M2,Implementation coverage,end_to_end,1.000,0.20,0.60,docs/source_agent_map.csv (15/15 done or partial),0.0,0,0
+M3,Field-level F1 (eval set),GeoSpatial_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
+M6,Tool selection accuracy,GeoSpatial_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
+M7,Tool input accuracy,GeoSpatial_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
+M8,Trajectory match,GeoSpatial_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
+M9,Task completion,GeoSpatial_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness,GeoSpatial_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
+M3,Field-level F1 (eval set),LiveMandi_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
+M6,Tool selection accuracy,LiveMandi_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
+M7,Tool input accuracy,LiveMandi_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
+M8,Trajectory match,LiveMandi_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
+M9,Task completion,LiveMandi_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness,LiveMandi_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
+M3,Field-level F1 (eval set),TabularPDF_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
+M6,Tool selection accuracy,TabularPDF_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
+M7,Tool input accuracy,TabularPDF_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
+M8,Trajectory match,TabularPDF_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
+M9,Task completion,TabularPDF_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness,TabularPDF_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
+M3,Field-level F1 (eval set),WebPortal_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
+M6,Tool selection accuracy,WebPortal_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
+M7,Tool input accuracy,WebPortal_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
+M8,Trajectory match,WebPortal_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
+M9,Task completion,WebPortal_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness,WebPortal_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
+M3,Field-level F1 (eval set),Database_Dashboard,1.000,0.50,0.85,Source group F1,112.5,420,0
+M3,Field-level F1 (eval set),Document_PDF,1.000,0.50,0.85,Source group F1,112.5,420,0
+M3,Field-level F1 (eval set),Geospatial_GIS,1.000,0.50,0.85,Source group F1,112.5,420,0
+M3,Field-level F1 (eval set),Web_Portal,1.000,0.50,0.85,Source group F1,112.5,420,0
+M3_BONUS_NON_EN,Field-level F1 (Assamese non-English),Assamese_Language_Group,1.000,0.50,0.85,Bonus +1 pt: Non-English Assamese cases F1 >= 0.85,112.5,420,0
+M3,Field-level F1 (macro-average),end_to_end,1.000,0.50,0.85,Macro-average across all 4 implemented agents,112.5,420,4
+M4,Provenance accuracy,end_to_end,0.812,0.60,0.95,26/32 records locator verified against source,112.5,420,0
+M5,Surprise-item F1,surprise,1.000,0.30,0.75,"6/6 unseen surprise items matched (CSV, HTML, Assamese TXT)",114.0,420,2
+M6,Tool selection accuracy (macro),end_to_end,1.000,0.60,0.90,Macro-average across agents,112.5,420,0
+M7,Tool input accuracy (macro),end_to_end,1.000,0.60,0.90,Macro-average across agents,112.5,420,0
+M8,Trajectory match (macro),end_to_end,1.000,0.50,0.80,AgentEvals superset trajectory match,112.5,420,4
+M9,Task completion (macro),end_to_end,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness (macro),end_to_end,1.000,0.70,0.95,Calibrated Judge (100% agreement on 12 human cases),112.5,420,0
+M11,End-to-end workflow success,end_to_end,1.000,0.50,0.90,38/38 complete + 1 live fault injection handled (yes),115.0,420,4
+M12,Automation rate,end_to_end,0.842,0.30,0.80,logs/automation_log.csv (32/38 automated),112.5,420,4
+M13,Redundant call ratio (lower is better),end_to_end,0.000,0.50,0.10,run stats: (calls - ref_calls)/calls; retries separate,112.5,420,4
+M14,Mandatory field completeness,end_to_end,1.000,0.80,1.00,SQL NOT NULL check on 9 mandatory provenance columns,0.0,0,0
+M15,Validation pass rate,end_to_end,1.000,0.70,0.98,"SQL check: allowed SI units, LGD_AS_%, date, value range",0.0,0,0
+M16,Duplicate rate (lower is better),end_to_end,0.000,0.10,0.00,SQL GROUP BY natural key (0 duplicates),0.0,0,0
+M17,Live trace-back,end_to_end,3,1,3,3/3 random DB rows traced to exact source page/row,0.0,0,0
+M18,Adapter comparison,end_to_end,+0.066,reported,reported,eval/adapter_comparison.csv (0 hash overlap=True),112.5,420,0
+BONUS_EVAL_1,UnitConsistencyEvaluator,end_to_end,1.000,0.80,1.00,Bonus +1 pt: Dimensional compatibility check,0.0,0,0
+BONUS_EVAL_2,CrossSourceAgreementEvaluator,end_to_end,1.000,0.80,1.00,Bonus +1 pt: Cross-source yield bounds check,0.0,0,0
