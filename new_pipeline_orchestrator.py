@@ -126,7 +126,8 @@ class MultiAgentOrchestrator:
                     "INSERT OR REPLACE INTO dim_sources VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     (
                         row["source_id"], row["source_name"], row["url"], row["source_group"],
-                        row["period"], row["assigned_agent"], row["status"], row["known_limitations"]
+                        row["temporal_coverage"], row["assigned_agent"],
+                        row["implementation_status"], row["known_limitations"]
                     )
                 )
 

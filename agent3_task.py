@@ -92,7 +92,9 @@ class Agent3TaskNormalizer:
             return round(val, 2), "scale"
         if u in ["ph"]:
             return round(val, 2), "pH"
-        return (round(val, 2), u_raw) if u_raw in ALLOWED_SI_UNITS else (round(val, 2), "ha")
+        if u_raw in ALLOWED_SI_UNITS:
+            return round(val, 2), u_raw
+        raise ValueError(f"Unsupported unit: '{u_raw}'")
 
     @staticmethod
     def clean_num(val_str: str) -> float:

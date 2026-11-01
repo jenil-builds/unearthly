@@ -1,7 +1,7 @@
 """
 AgriAgent Phase 2 Official Protocol Evaluation Suite (eval/run_eval.py)
 Actually implements and executes every evaluator for M1-M18 + 5 Bonus Points.
-Writes both eval/phase2_metrics.csv and eval/phase2_metrics_new.csv.
+Writes both eval/phase2_metrics.csv
 """
 
 import os

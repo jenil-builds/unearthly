@@ -11,6 +11,26 @@ class Agent2BLiveGIS:
     def ingest_case_dict(self, case_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         r = case_data.get("structured_source_row", case_data)
         sgroup = case_data.get("source_group", "Database_Dashboard")
+        required_fields = (
+            "source_id",
+            "locator",
+            "crop_name",
+            "district_raw",
+            "time_period",
+            "metric_name",
+            "raw_value",
+            "raw_unit",
+        )
+        missing_fields = [
+            field for field in required_fields
+            if field not in r or r[field] is None or not str(r[field]).strip()
+        ]
+
+        if missing_fields:
+            raise ValueError(
+                f"Missing required extraction field(s): {', '.join(missing_fields)}"
+            )
+
         return [{
             "source_id": r.get("source_id", case_data.get("source_id", "SRC_11")),
             "source_type": sgroup,

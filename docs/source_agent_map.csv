@@ -1,4 +1,4 @@
-source_id,source_name,url,source_group,period,assigned_agent,status,known_limitations
+source_id,source_name,url,source_group,temporal_coverage,assigned_agent,implementation_status,known_limitations
 SRC_01,DES Assam - Ten Major Crops in Assam,https://des.assam.gov.in/sites/default/files/swf_utility_folder/departments/ecostat_medhassu_in_oid_3/menu/document/ten_major_crops_1.pdf,Document_PDF,2003-04 to 2012-13,agent2_ingestion,done,Series ends 2012-13; multi-row headers and footnote markers
 SRC_02,ICAR-IIRR - Released Rice Varieties and Hybrids,https://www.icar-iirr.org/3.ICAR-IIRR_Varietiesandhybrids_Available_for_Commercialization_through_Licensing.pdf,Document_PDF,1997-2013,agent2_ingestion,done,National table; requires Assam agro-climatic filtering
 SRC_03,ASAMB - Cold Storage Facilities List,https://asamb.assam.gov.in/sites/default/files/swf_utility_folder/departments/asamb_medhassu_in_oid_7/menu/information_and_services/cold_storage_under_asamb.pdf,Document_PDF,Current,agent2_ingestion,done,Covers 18000 MT public ASAMB units only

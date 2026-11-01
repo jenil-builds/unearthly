@@ -307,19 +307,4 @@ class Agent2Ingestion:
         except Exception as e:
             print(f"[Agent2 Fault Tolerance] Recovered from parse exception on {fname}: {e}")
 
-        if not records:
-            records.append({
-                "source_id": "SURPRISE_FALLBACK",
-                "source_type": "Document_PDF",
-                "agent": "agent2_ingestion",
-                "locator": f"File={fname};Page=1;Row=1",
-                "crop_name": "Rice (Paddy)",
-                "variety_name": "Winter Paddy (Sali)",
-                "district_raw": "Assam (State Total)",
-                "time_period": "2024-25",
-                "metric_name": "Area",
-                "raw_value": "1000.0",
-                "raw_unit": "Hectares",
-                "source_text_evidence": f"Fallback extraction from {fname}",
-            })
         return records

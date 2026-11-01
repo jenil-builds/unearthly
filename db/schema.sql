@@ -64,7 +64,15 @@ CREATE TABLE IF NOT EXISTS fact_agricultural_records (
     FOREIGN KEY (source_id) REFERENCES dim_sources(source_id),
     FOREIGN KEY (run_id) REFERENCES extraction_runs(run_id),
     FOREIGN KEY (location_id) REFERENCES dim_locations(location_id),
-    FOREIGN KEY (crop_id) REFERENCES dim_crops(crop_id)
+    FOREIGN KEY (crop_id) REFERENCES dim_crops(crop_id),
+    UNIQUE (
+        source_id,
+        source_location,
+        crop_id,
+        location_id,
+        time_period,
+        metric_name
+    )
 );
 
 CREATE INDEX IF NOT EXISTS idx_fact_source ON fact_agricultural_records(source_id);

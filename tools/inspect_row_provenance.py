@@ -13,7 +13,7 @@ def inspect_rows(row_ids=None):
     if row_ids:
         placeholders = ",".join("?" for _ in row_ids)
         query = f"""
-            SELECT f.record_id, f.source_id, s.source_name, s.source_url, f.source_type,
+            SELECT f.record_id, f.source_id, s.source_name, s.url, f.source_type,
                    f.extracting_agent, f.run_id, f.source_location,
                    l.canonical_district_name, f.location_id, c.crop_name, c.variety_name,
                    f.time_period, f.metric_name, f.raw_value_text, f.raw_unit,
@@ -27,7 +27,7 @@ def inspect_rows(row_ids=None):
         cur.execute(query, row_ids)
     else:
         cur.execute("""
-            SELECT f.record_id, f.source_id, s.source_name, s.source_url, f.source_type,
+            SELECT f.record_id, f.source_id, s.source_name, s.url, f.source_type,
                    f.extracting_agent, f.run_id, f.source_location,
                    l.canonical_district_name, f.location_id, c.crop_name, c.variety_name,
                    f.time_period, f.metric_name, f.raw_value_text, f.raw_unit,
