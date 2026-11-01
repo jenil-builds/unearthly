@@ -1,39 +1,37 @@
 run_id,source_id,agent,completed_automatically,manual_interventions,retries,total_tool_calls,distinct_valid_tool_calls,latency_ms,tokens_used,trajectory
-RUN_SRC_01_51f31b2f,SRC_01,agent2_ingestion,1,0,0,1,1,112.73,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_01_f3528210,SRC_01,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_01_16e93fa8,SRC_01,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_01_8473928b,SRC_01,agent2_ingestion,1,0,0,1,1,112.52,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_01_6a1e1581,SRC_01,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_01_3c80e3f3,SRC_01,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_01_c65d6698,SRC_01,agent2_ingestion,1,0,1,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_02_073cadbf,SRC_02,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_03_3cd09c40,SRC_03,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_04_2e5d81bc,SRC_04,agent2_ingestion,1,0,1,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_06_12d01d97,SRC_06,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_06_c7df41fb,SRC_06,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_06_f0e67d97,SRC_06,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_06_92112fa4,SRC_06,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_07_5215d7a4,SRC_07,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_07_7f3aec25,SRC_07,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_08_a0f75e73,SRC_08,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_08_2915aeaf,SRC_08,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_09_f3bcf877,SRC_09,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_10_7b591936,SRC_10,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_11_29706285,SRC_11,agent2b_live_gis,1,0,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_11_c2289165,SRC_11,agent2b_live_gis,1,0,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_11_56df175c,SRC_11,agent2b_live_gis,1,0,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_11_6a936473,SRC_11,agent2b_live_gis,1,0,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_11_0a1863b5,SRC_11,agent2b_live_gis,1,0,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_11_671b5c77,SRC_11,agent2b_live_gis,1,0,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_12_91928b31,SRC_12,agent2b_live_gis,0,1,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_12_ed4785a0,SRC_12,agent2b_live_gis,0,1,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_13_d5270185,SRC_13,agent2b_live_gis,0,1,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_14_d76ccdd6,SRC_14,agent2b_live_gis,0,1,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_15_2cc9a2e6,SRC_15,agent2b_live_gis,0,1,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SRC_15_9e21e352,SRC_15,agent2b_live_gis,0,1,0,1,1,112.51,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SURPRISE_01_20ce7df7,SURPRISE_01,agent2_ingestion,1,0,1,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SURPRISE_01_77dd0829,SURPRISE_01,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SURPRISE_HTML_ff0fd20a,SURPRISE_HTML,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SURPRISE_HTML_16efffa6,SURPRISE_HTML,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SURPRISE_AS_TXT_2f6d0977,SURPRISE_AS_TXT,agent2_ingestion,1,0,0,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
-RUN_SURPRISE_AS_TXT_32a5bfa5,SURPRISE_AS_TXT,agent2_ingestion,1,0,1,1,1,112.51,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_51f31b2f,SRC_01,agent2_ingestion,1,0,0,1,1,114.12,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_f3528210,SRC_01,agent2_ingestion,1,0,0,1,1,112.55,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_16e93fa8,SRC_01,agent2_ingestion,1,0,0,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_8473928b,SRC_01,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_6a1e1581,SRC_01,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_3c80e3f3,SRC_01,agent2_ingestion,1,0,0,1,1,112.55,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_01_c65d6698,SRC_01,agent2_ingestion,1,0,1,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_02_073cadbf,SRC_02,agent2_ingestion,1,0,0,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_03_3cd09c40,SRC_03,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_04_2e5d81bc,SRC_04,agent2_ingestion,1,0,1,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_06_12d01d97,SRC_06,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_06_c7df41fb,SRC_06,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_06_f0e67d97,SRC_06,agent2_ingestion,1,0,0,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_06_92112fa4,SRC_06,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_07_5215d7a4,SRC_07,agent2_ingestion,1,0,0,1,1,112.55,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_07_7f3aec25,SRC_07,agent2_ingestion,1,0,0,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_08_a0f75e73,SRC_08,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_08_2915aeaf,SRC_08,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_09_f3bcf877,SRC_09,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_10_7b591936,SRC_10,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_11_29706285,SRC_11,agent2b_live_gis,1,0,0,1,1,112.53,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_11_c2289165,SRC_11,agent2b_live_gis,1,0,0,1,1,112.54,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_11_56df175c,SRC_11,agent2b_live_gis,1,0,0,1,1,112.54,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_11_6a936473,SRC_11,agent2b_live_gis,1,0,0,1,1,112.53,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_11_0a1863b5,SRC_11,agent2b_live_gis,1,0,0,1,1,112.53,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_11_671b5c77,SRC_11,agent2b_live_gis,1,0,0,1,1,112.53,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_12_91928b31,SRC_12,agent2b_live_gis,0,1,0,1,1,112.54,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_12_ed4785a0,SRC_12,agent2b_live_gis,0,1,0,1,1,112.53,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_13_d5270185,SRC_13,agent2b_live_gis,0,1,0,1,1,112.54,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_14_d76ccdd6,SRC_14,agent2b_live_gis,0,1,0,1,1,112.53,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_15_2cc9a2e6,SRC_15,agent2b_live_gis,0,1,0,1,1,112.54,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SRC_15_9e21e352,SRC_15,agent2b_live_gis,0,1,0,1,1,112.54,420,agent1_classifier->agent2b_live_gis -> Tool:agent2b_live_gis_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SURPRISE_HTML_ade6785c,SURPRISE_HTML,agent2_ingestion,1,0,0,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SURPRISE_HTML_76dd3a90,SURPRISE_HTML,agent2_ingestion,1,0,0,1,1,112.53,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SURPRISE_AS_TXT_e6710d44,SURPRISE_AS_TXT,agent2_ingestion,1,0,0,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:Normalized -> DB_Commit_Ready
+RUN_SURPRISE_AS_TXT_a797daad,SURPRISE_AS_TXT,agent2_ingestion,1,0,1,1,1,112.54,420,agent1_classifier->agent2_ingestion -> Tool:agent2_ingestion_Extractor -> agent3_task:SelfCorrectionNode -> agent3_task:Normalized -> DB_Commit_Ready

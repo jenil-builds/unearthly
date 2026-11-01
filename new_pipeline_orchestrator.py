@@ -8,7 +8,7 @@ import csv
 import json
 import time
 import sqlite3
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Tuple
 
@@ -73,8 +73,17 @@ class MultiAgentOrchestrator:
                 surprise_files.append(surprise_input)
 
             with ThreadPoolExecutor(max_workers=4) as pool:
-                for s_list in pool.map(self._process_surprise_file, surprise_files):
-                    surprise_records.extend(s_list)
+                futures = {
+                    pool.submit(self._process_surprise_file, filepath): filepath
+                    for filepath in surprise_files
+                }
+
+                for future in as_completed(futures):
+                    filepath = futures[future]
+                    try:
+                        surprise_records.extend(future.result())
+                    except Exception as exc:
+                        print(f"[SURPRISE ERROR] Skipping {filepath}: {exc}")
 
             print(f"[SURPRISE MODE] Multi-Agent Orchestrator parsed {len(surprise_records)} records safely from: {surprise_input}")
             for sr in surprise_records:
