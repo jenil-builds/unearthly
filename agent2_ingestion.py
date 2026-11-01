@@ -8,6 +8,7 @@ import os
 import re
 import csv
 import json
+from importlib import import_module
 from typing import List, Dict, Any
 
 try:
@@ -16,7 +17,7 @@ except ImportError:
     BeautifulSoup = None
 
 try:
-    import pdfplumber
+    pdfplumber = import_module("pdfplumber")
 except ImportError:
     pdfplumber = None
 
