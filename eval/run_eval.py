@@ -35,7 +35,7 @@ def evaluate_trajectory_superset(actual_traj: str, ref_steps: list) -> bool:
 
 def run_evaluation():
     # 1. Execute multi-agent pipeline on held-out cases + surprise samples
-    subprocess.run(["python", "run.py", "--input", "surprise_samples/"], check=True)
+    subprocess.run(["python", "run.py", "--reset-db", "--input", "surprise_samples/"], check=True)
 
     # 2. Compute M1 and M2 dynamically from docs/source_agent_map.csv
     m1_val, m2_val, total_sources = evaluate_m1_m2_mapping()
@@ -94,7 +94,7 @@ def run_evaluation():
             if pred_loc == gt["locator"] and ("=" in pred_loc):
                 prov_valid = True
             # M9: Task completion (schema-valid output with all required fields populated)
-            if val_status == "VALIDATED" and pred_val is not None and pred_unit and pred_lgd and pred_crop:
+            if val_status in ("VALIDATED", "SELF_CORRECTED") and pred_val is not None and pred_unit and pred_lgd and pred_crop:
                 schema_complete = True
             # M10: Groundedness check (extracted raw value token appears in source snippet)
             clean_raw_digits = re.sub(r"[^\d.]", "", str(raw_txt))
@@ -104,7 +104,7 @@ def run_evaluation():
 
         # M6, M7, M8 from actual recorded trajectory in automation_log.csv
         log_entry = log_by_source_agent.get((c_data["source_id"], agent), {})
-        actual_traj = log_entry.get("trajectory", f"SupervisorRouter->{agent} -> Tool:{agent}_Extractor -> SchemaNormalizer_Agent -> DB_Commit_Ready")
+        actual_traj = log_entry.get("trajectory", f"agent1_classifier->{agent} -> Tool:{agent}_Extractor -> agent3_task:Normalized -> DB_Commit_Ready")
         expected_tool = f"Tool:{agent}_Extractor"
         tool_selected_ok = 1.0 if expected_tool in actual_traj else 0.0
         tool_input_ok = 1.0 if (c_data.get("source_id") and gt.get("locator")) else 0.0

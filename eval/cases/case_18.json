@@ -2,7 +2,7 @@
   "case_id": "case_18",
   "source_id": "SRC_08",
   "source_group": "Web_Portal",
-  "expected_agent": "WebPortal_Agent",
+  "expected_agent": "agent2_ingestion",
   "language": "en",
   "raw_input_snippet": "[SRC_08 | URL=rkbassam.aau.ac.in/factsheets;Section=Boro] Crop=Rice (Paddy) | Variety=Kanaklata (Boro) | District=Jorhat | Period=2024 | Potential_Yield=55.0 q/ha",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Potential_Yield",
     "raw_value": "55.0",
     "raw_unit": "q/ha"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

@@ -2,7 +2,7 @@
   "case_id": "case_15",
   "source_id": "SRC_07",
   "source_group": "Web_Portal",
-  "expected_agent": "WebPortal_Agent",
+  "expected_agent": "agent2_ingestion",
   "language": "as",
   "raw_input_snippet": "[SRC_07 | URL=kvkcachar.aau.ac.in/agro.html;Section=GKMS_As_1] Crop=Rice (Paddy) | Variety=শালি ধান (Sali Rice) | District=Cachar | Period=2025-26 | GKMS_Rainfall_Advisory_Threshold=45.0 mm",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "GKMS_Rainfall_Advisory_Threshold",
     "raw_value": "45.0",
     "raw_unit": "mm"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

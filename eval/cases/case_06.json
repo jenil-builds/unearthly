@@ -2,7 +2,7 @@
   "case_id": "case_06",
   "source_id": "SRC_01",
   "source_group": "Document_PDF",
-  "expected_agent": "TabularPDF_Agent",
+  "expected_agent": "agent2_ingestion",
   "language": "en",
   "raw_input_snippet": "[SRC_01 | Page=4;Table=1.04;Row=10] Crop=Rapeseed & Mustard | Variety=General | District=Assam (State Total) | Period=2012-13 | Area=2,79,496 Hectares",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Area",
     "raw_value": "2,79,496",
     "raw_unit": "Hectares"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

@@ -2,7 +2,7 @@
   "case_id": "case_14",
   "source_id": "SRC_06",
   "source_group": "Web_Portal",
-  "expected_agent": "WebPortal_Agent",
+  "expected_agent": "agent2_ingestion",
   "language": "en",
   "raw_input_snippet": "[SRC_06 | URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Mustard_1] Crop=Rapeseed & Mustard | Variety=TS-38 | District=Kokrajhar | Period=2023 | Recommended_Yield_Rainfed=12.5 q/ha",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Recommended_Yield_Rainfed",
     "raw_value": "12.5",
     "raw_unit": "q/ha"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

@@ -2,7 +2,7 @@
   "case_id": "case_12",
   "source_id": "SRC_06",
   "source_group": "Web_Portal",
-  "expected_agent": "WebPortal_Agent",
+  "expected_agent": "agent2_ingestion",
   "language": "en",
   "raw_input_snippet": "[SRC_06 | URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Wheat_2] Crop=Wheat | Variety=Sonalika | District=Barpeta | Period=2023 | Recommended_Yield_Rainfed=19.0 q/ha",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Recommended_Yield_Rainfed",
     "raw_value": "19.0",
     "raw_unit": "q/ha"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

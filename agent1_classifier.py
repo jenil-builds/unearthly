@@ -1,6 +1,6 @@
 """
 Agent 1: Modality Classifier & Specialist Router (agent1_classifier.py)
-Combines deterministic file/URL signature inspection with AI semantic intent classification.
+Routes incoming sources/files to 'agent2_ingestion' (PDF/Web/CSV/TXT) or 'agent2b_live_gis' (Live Mandi & Web-GIS).
 """
 
 import os
@@ -8,12 +8,6 @@ import re
 from typing import Dict, Any
 
 class Agent1Classifier:
-    """
-    Independent Classifier Agent:
-    - Deterministic Layer: Inspects file extensions, magic bytes, URL patterns, and Unicode script ranges.
-    - AI Semantic Layer: Classifies ambiguous documents into specialist agent pipelines and assigns tool configs.
-    """
-
     MODEL_ID = "Qwen/Qwen2.5-72B-Instruct"
 
     def classify_source(self, source_meta: Dict[str, Any]) -> Dict[str, Any]:
@@ -23,36 +17,28 @@ class Agent1Classifier:
         expected = str(source_meta.get("expected_agent", ""))
         raw_text_sample = str(source_meta.get("raw_text_sample", ""))
 
-        # Detect Assamese Unicode range (\u0980 - \u09FF)
         has_assamese = bool(re.search(r"[\u0980-\u09FF]", raw_text_sample)) or source_meta.get("language") == "as"
         language = "as" if has_assamese else "en"
 
-        # Deterministic routing by declared source group or file extension
-        if expected in ["TabularPDF_Agent", "WebPortal_Agent", "LiveMandi_Agent", "GeoSpatial_Agent"]:
-            specialist_role = expected
-        elif sgroup == "Database_Dashboard":
-            specialist_role = "LiveMandi_Agent"
-        elif sgroup == "Geospatial_GIS":
-            specialist_role = "GeoSpatial_Agent"
-        elif ext in [".pdf", ".csv"]:
-            specialist_role = "TabularPDF_Agent"
-        elif ext in [".html", ".htm", ".txt"]:
-            specialist_role = "WebPortal_Agent"
+        if expected in ["agent2b_live_gis", "LiveMandi_Agent", "GeoSpatial_Agent"] or sgroup in ["Database_Dashboard", "Geospatial_GIS"]:
+            target_agent = "agent2b_live_gis"
         else:
-            specialist_role = "TabularPDF_Agent"
+            target_agent = "agent2_ingestion"
 
-        # Map specialist role to worker module and tool selection
-        if specialist_role in ["LiveMandi_Agent", "GeoSpatial_Agent"]:
-            worker_module = "agent2b_live_gis"
-            selected_tool = f"Tool:{specialist_role}_Extractor"
+        if sgroup:
+            source_type = sgroup
+        elif ext in [".pdf", ".csv"]:
+            source_type = "Document_PDF"
+        elif ext in [".html", ".htm", ".txt"]:
+            source_type = "Web_Portal"
         else:
-            worker_module = "agent2_ingestion"
-            selected_tool = f"Tool:{specialist_role}_Extractor"
+            source_type = "Document_PDF"
 
         return {
-            "specialist_role": specialist_role,
-            "worker_module": worker_module,
-            "selected_tool": selected_tool,
+            "routing_agent": "agent1_classifier",
+            "target_agent": target_agent,
+            "selected_tool": f"Tool:{target_agent}_Extractor",
+            "source_type": source_type,
             "language": language,
             "modality": ext.lstrip(".").upper() if ext else "STRUCTURED_CASE",
             "tool_args_valid": True,

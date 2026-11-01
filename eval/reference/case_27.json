@@ -1,7 +1,7 @@
 {
   "case_id": "case_27",
   "source_id": "SRC_12",
-  "expected_agent": "GeoSpatial_Agent",
+  "expected_agent": "agent2b_live_gis",
   "expected_trajectory": [
     "SupervisorRouter->GeoSpatial_Agent",
     "Tool:GeoSpatial_Agent_Extractor",
@@ -20,5 +20,11 @@
     "locator": "WMS=apartgis.aau.ac.in;Layer=RiceFallow_2024"
   },
   "human_judge_groundedness": 1.0,
-  "human_judge_task_completion": 1.0
+  "human_judge_task_completion": 1.0,
+  "reference_trajectory": [
+    "agent1_classifier->agent2b_live_gis",
+    "Tool:agent2b_live_gis_Extractor",
+    "agent3_task:Normalized",
+    "DB_Commit_Ready"
+  ]
 }

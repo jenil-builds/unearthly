@@ -2,7 +2,7 @@
   "case_id": "case_32",
   "source_id": "SRC_15",
   "source_group": "Geospatial_GIS",
-  "expected_agent": "GeoSpatial_Agent",
+  "expected_agent": "agent2b_live_gis",
   "language": "en",
   "raw_input_snippet": "[SRC_15 | WMS=astec.assam.gov.in;Layer=BoroRice_CropMask] Crop=Rice (Paddy) | Variety=Boro Satellite Mask | District=Nagaon | Period=2023-24 | Mapped_Rice_Area=68,400 Hectares",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Mapped_Rice_Area",
     "raw_value": "68,400",
     "raw_unit": "Hectares"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

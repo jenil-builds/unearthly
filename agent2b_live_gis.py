@@ -1,26 +1,20 @@
 """
 Agent 2B: Live Market Intelligence & Geospatial Metadata Agent (agent2b_live_gis.py)
-Handles LiveMandi_Agent (Database_Dashboard) and GeoSpatial_Agent (Geospatial_GIS) tasks.
+Handles Database_Dashboard (AMIU Live Mandi) and Geospatial_GIS (Web-GIS & Soil/Satellite) sources.
 """
 
 from typing import List, Dict, Any
 
-
 class Agent2BLiveGIS:
-    """
-    Independent Agent for Live Mandi Dashboards & Web-GIS Portals:
-    - LiveMandi_Agent: Extracts rolling market arrival & modal price series (Rs/Quintal).
-    - GeoSpatial_Agent: Extracts WMS/WFS layer capabilities, spatial resolution (meters), scale, and soil pH.
-    """
+    MODEL_ID = "Qwen/Qwen2.5-72B-Instruct"
 
     def ingest_case_dict(self, case_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         r = case_data.get("structured_source_row", case_data)
-        expected_agent = case_data.get("expected_agent", "LiveMandi_Agent")
-        sgroup = case_data.get("source_group", "Database_Dashboard" if expected_agent == "LiveMandi_Agent" else "Geospatial_GIS")
+        sgroup = case_data.get("source_group", "Database_Dashboard")
         return [{
             "source_id": r.get("source_id", case_data.get("source_id", "SRC_11")),
             "source_type": sgroup,
-            "agent": expected_agent,
+            "agent": "agent2b_live_gis",
             "locator": r.get("locator", "Dashboard=AMIU;Row=1"),
             "crop_name": r.get("crop_name", "Rice (Paddy)"),
             "variety_name": r.get("variety_name", "General"),

@@ -1,7 +1,6 @@
 """
 Multi-Agent Pipeline Orchestrator (new_pipeline_orchestrator.py)
-Coordinates Agent1Classifier, Agent2Ingestion, Agent2BLiveGIS, and Agent3TaskNormalizer
-using parallel worker execution (ThreadPoolExecutor) to eliminate single-agent bottlenecks.
+Coordinates Agent1Classifier -> Agent2Ingestion / Agent2BLiveGIS -> Agent3TaskNormalizer.
 """
 
 import os
@@ -36,7 +35,7 @@ class MultiAgentOrchestrator:
             "expected_agent": c_data.get("expected_agent"),
             "language": c_data.get("language", "en"),
         })
-        if routing["worker_module"] == "agent2b_live_gis":
+        if routing["target_agent"] == "agent2b_live_gis":
             raw_list = self.agent2b.ingest_case_dict(c_data)
         else:
             raw_list = self.agent2.ingest_case_dict(c_data)
@@ -45,9 +44,12 @@ class MultiAgentOrchestrator:
     def _process_surprise_file(self, filepath: str) -> List[Dict[str, Any]]:
         routing = self.agent1.classify_source({"filepath": filepath})
         raw_list = self.agent2.ingest_file(filepath)
+        for r in raw_list:
+            r["agent"] = routing["target_agent"]
+            r["source_type"] = routing["source_type"]
         return [self.agent3.normalize_record(r) for r in raw_list]
 
-    def run_pipeline(self, surprise_input: str = None, inject_fault: bool = False) -> Tuple[int, int]:
+    def run_pipeline(self, surprise_input: str = None, inject_fault: bool = False, reset_db: bool = False) -> Tuple[int, int]:
         case_files = [
             os.path.join("eval/cases", fn)
             for fn in sorted(os.listdir("eval/cases"))
@@ -55,8 +57,6 @@ class MultiAgentOrchestrator:
         ]
 
         normalized_records: List[Dict[str, Any]] = []
-
-        # Concurrent multi-agent execution across held-out cases (no sequential bottleneck)
         with ThreadPoolExecutor(max_workers=4) as pool:
             for res_list in pool.map(self._process_single_case, case_files):
                 normalized_records.extend(res_list)
@@ -67,7 +67,7 @@ class MultiAgentOrchestrator:
             if os.path.isdir(surprise_input):
                 for fn in sorted(os.listdir(surprise_input)):
                     fp = os.path.join(surprise_input, fn)
-                    if os.path.isfile(fp):
+                    if os.path.isfile(fp) and not fn.startswith("."):
                         surprise_files.append(fp)
             elif os.path.isfile(surprise_input):
                 surprise_files.append(surprise_input)
@@ -79,7 +79,7 @@ class MultiAgentOrchestrator:
             print(f"[SURPRISE MODE] Multi-Agent Orchestrator parsed {len(surprise_records)} records safely from: {surprise_input}")
             for sr in surprise_records:
                 print(
-                    f"   -> Routed to {sr['agent']:<18} | Crop={sr['crop_name']} ({sr['variety_name']}) "
+                    f"   -> Routed to {sr['agent']:<16} | Crop={sr['crop_name']} ({sr['variety_name']}) "
                     f"| Dist={sr['canonical_district']} [{sr['location_id']}] | {sr['metric_name']}={sr['normalized_value']} {sr['normalized_unit']}"
                 )
 
@@ -88,7 +88,7 @@ class MultiAgentOrchestrator:
             fault_raw = {
                 "source_id": "SRC_01",
                 "source_type": "Document_PDF",
-                "agent": "TabularPDF_Agent",
+                "agent": "agent2_ingestion",
                 "locator": "Page=99;Table=FaultTest;Row=1",
                 "crop_name": "Rice (Paddy)",
                 "variety_name": "Fault Recovery Sali",
@@ -100,17 +100,20 @@ class MultiAgentOrchestrator:
             }
             fault_norm = self.agent3.normalize_record(fault_raw)
             print(
-                f"   -> SelfCorrectionNode recovered value: Raw='{fault_raw['raw_value']}' "
+                f"   -> agent3_task SelfCorrectionNode recovered value: Raw='{fault_raw['raw_value']}' "
                 f"-> Normalized={fault_norm['normalized_value']:,.2f} {fault_norm['normalized_unit']} (Retries={fault_norm['retries']})"
             )
             normalized_records = [fault_norm] + normalized_records
 
         all_records = normalized_records + surprise_records
-        return self._commit_to_sqlite(all_records)
+        return self._commit_to_sqlite(all_records, reset_db=reset_db)
 
-    def _commit_to_sqlite(self, records: List[Dict[str, Any]]) -> Tuple[int, int]:
+    def _commit_to_sqlite(self, records: List[Dict[str, Any]], reset_db: bool = False) -> Tuple[int, int]:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         os.makedirs("logs", exist_ok=True)
+
+        if reset_db and os.path.exists(self.db_path):
+            os.remove(self.db_path)
 
         conn = sqlite3.connect(self.db_path)
         with open("db/schema.sql", "r", encoding="utf-8") as sf:
@@ -127,28 +130,34 @@ class MultiAgentOrchestrator:
                     )
                 )
 
-        for sid in ["SURPRISE_01", "SURPRISE_CSV", "SURPRISE_HTML", "SURPRISE_AS_TXT", "SURPRISE_PDF", "SURPRISE_JSON", "SURPRISE_TXT", "SURPRISE_FALLBACK"]:
-            cur.execute(
-                "INSERT OR IGNORE INTO dim_sources VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                (sid, f"Live Surprise Input ({sid})", "local://surprise_input", "Surprise_Input", "2025-26", "Dynamic_Router", "done", "Live evaluation surprise input")
-            )
+        # Register only actual ingested surprise sources dynamically with their true extracting agent
+        for r in records:
+            if str(r["source_id"]).startswith("SURPRISE"):
+                cur.execute(
+                    "INSERT OR REPLACE INTO dim_sources VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (
+                        r["source_id"], f"Live Surprise Input ({r['source_id']})",
+                        f"local://{r['locator'].split(';')[0]}", r["source_type"],
+                        r["time_period"], r["agent"], "done", "Live surprise input evaluated via agent1->agent2->agent3"
+                    )
+                )
 
         automation_rows = []
         for idx, r in enumerate(records, 1):
             t0 = time.perf_counter()
-            run_id = f"RUN_20261031_{idx:03d}"
+            run_id = f"RUN_{r['source_id']}_{r['record_hash'][:8]}"
             cur.execute(
-                "INSERT OR IGNORE INTO dim_locations VALUES (?, ?, ?, 'Assam')",
+                "INSERT OR REPLACE INTO dim_locations VALUES (?, ?, ?, 'Assam')",
                 (r["location_id"], r["canonical_district"], r["agro_climatic_zone"])
             )
             cur.execute(
-                "INSERT OR IGNORE INTO dim_crops VALUES (?, ?, ?, 'Annual')",
-                (r["crop_id"], r["crop_name"], r["variety_name"])
+                "INSERT OR REPLACE INTO dim_crops VALUES (?, ?, ?, ?)",
+                (r["crop_id"], r["crop_name"], r["variety_name"], r["season_category"])
             )
 
             now_iso = datetime.now(timezone.utc).isoformat()
             latency_ms = round((time.perf_counter() - t0) * 1000.0 + 112.5, 2)
-            manual_used = 1 if r["agent"] == "GeoSpatial_Agent" else 0
+            manual_used = 1 if r["source_type"] == "Geospatial_GIS" else 0
 
             cur.execute(
                 "INSERT OR REPLACE INTO extraction_runs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -162,11 +171,11 @@ class MultiAgentOrchestrator:
                 INSERT OR REPLACE INTO fact_agricultural_records
                 (record_hash, source_id, source_type, run_id, extracting_agent, source_location, location_id, crop_id,
                  time_period, metric_name, raw_value_text, raw_unit, normalized_value, normalized_unit, validation_status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'VALIDATED')
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 r["record_hash"], r["source_id"], r["source_type"], run_id, r["agent"], r["locator"],
                 r["location_id"], r["crop_id"], r["time_period"], r["metric_name"],
-                str(r["raw_value"]), r["raw_unit"], r["normalized_value"], r["normalized_unit"]
+                str(r["raw_value"]), r["raw_unit"], r["normalized_value"], r["normalized_unit"], r["validation_status"]
             ))
 
             automation_rows.append([

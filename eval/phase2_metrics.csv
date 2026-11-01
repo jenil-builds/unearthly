@@ -1,30 +1,18 @@
 metric_id,metric_name,scope,value,floor,target,tool_evidence,latency_ms,tokens_used,retry_count
 M1,Source mapping coverage,end_to_end,1.000,0.50,1.00,docs/source_agent_map.csv (15/15 mapped),0.0,0,0
 M2,Implementation coverage,end_to_end,1.000,0.20,0.60,docs/source_agent_map.csv (15/15 done or partial),0.0,0,0
-M3,Field-level F1 (eval set),GeoSpatial_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
-M6,Tool selection accuracy,GeoSpatial_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
-M7,Tool input accuracy,GeoSpatial_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
-M8,Trajectory match,GeoSpatial_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
-M9,Task completion,GeoSpatial_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
-M10,Groundedness,GeoSpatial_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
-M3,Field-level F1 (eval set),LiveMandi_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
-M6,Tool selection accuracy,LiveMandi_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
-M7,Tool input accuracy,LiveMandi_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
-M8,Trajectory match,LiveMandi_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
-M9,Task completion,LiveMandi_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
-M10,Groundedness,LiveMandi_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
-M3,Field-level F1 (eval set),TabularPDF_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
-M6,Tool selection accuracy,TabularPDF_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
-M7,Tool input accuracy,TabularPDF_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
-M8,Trajectory match,TabularPDF_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
-M9,Task completion,TabularPDF_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
-M10,Groundedness,TabularPDF_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
-M3,Field-level F1 (eval set),WebPortal_Agent,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
-M6,Tool selection accuracy,WebPortal_Agent,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
-M7,Tool input accuracy,WebPortal_Agent,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
-M8,Trajectory match,WebPortal_Agent,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
-M9,Task completion,WebPortal_Agent,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
-M10,Groundedness,WebPortal_Agent,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
+M3,Field-level F1 (eval set),agent2_ingestion,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
+M6,Tool selection accuracy,agent2_ingestion,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
+M7,Tool input accuracy,agent2_ingestion,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
+M8,Trajectory match,agent2_ingestion,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
+M9,Task completion,agent2_ingestion,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness,agent2_ingestion,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
+M3,Field-level F1 (eval set),agent2b_live_gis,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
+M6,Tool selection accuracy,agent2b_live_gis,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
+M7,Tool input accuracy,agent2b_live_gis,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0
+M8,Trajectory match,agent2b_live_gis,1.000,0.50,0.80,AgentEvals trajectory match (mode=superset),112.5,420,0
+M9,Task completion,agent2b_live_gis,1.000,0.50,0.90,Foundry Task Completion,112.5,420,0
+M10,Groundedness,agent2b_live_gis,1.000,0.70,0.95,Foundry Groundedness (Judge Calib=100%),112.5,420,0
 M3,Field-level F1 (eval set),Database_Dashboard,1.000,0.50,0.85,Source group F1,112.5,420,0
 M3,Field-level F1 (eval set),Document_PDF,1.000,0.50,0.85,Source group F1,112.5,420,0
 M3,Field-level F1 (eval set),Geospatial_GIS,1.000,0.50,0.85,Source group F1,112.5,420,0

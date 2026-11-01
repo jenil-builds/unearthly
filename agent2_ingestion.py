@@ -88,7 +88,7 @@ class AISemanticExtractor:
         }
 
     @classmethod
-    def extract_from_unstructured_text(cls, text_line: str, fname: str, line_no: int, source_id: str = "SURPRISE_AS_TXT", agent: str = "WebPortal_Agent") -> Dict[str, Any]:
+    def extract_from_unstructured_text(cls, text_line: str, fname: str, line_no: int, source_id: str = "SURPRISE_AS_TXT", agent: str = "agent2_ingestion") -> Dict[str, Any]:
         crop_name, variety_name = "Rice (Paddy)", "General"
         for as_key, (c_en, v_en) in cls.ASSAMESE_CROP_LEXICON.items():
             if as_key in text_line:
@@ -132,7 +132,7 @@ class AISemanticExtractor:
 
         return {
             "source_id": source_id,
-            "source_type": "Web_Portal" if agent == "WebPortal_Agent" else "Document_PDF",
+            "source_type": "Web_Portal" if agent == "agent2_ingestion" else "Document_PDF",
             "agent": agent,
             "locator": f"File={fname};Line={line_no}",
             "crop_name": crop_name,
@@ -154,7 +154,7 @@ class Agent2Ingestion:
         return [{
             "source_id": r.get("source_id", case_data.get("source_id", "SRC_01")),
             "source_type": case_data.get("source_group", "Document_PDF"),
-            "agent": case_data.get("expected_agent", "TabularPDF_Agent"),
+            "agent": case_data.get("expected_agent", "agent2_ingestion"),
             "locator": r.get("locator", "Page=1;Table=1;Row=1"),
             "crop_name": r.get("crop_name", "Rice (Paddy)"),
             "variety_name": r.get("variety_name", "General"),
@@ -189,7 +189,7 @@ class Agent2Ingestion:
                     for idx, row in enumerate(reader, 1):
                         records.append(
                             AISemanticExtractor.map_header_dict(
-                                row, fname, f"File={fname};Row={idx}", "SURPRISE_01", "Document_PDF", "TabularPDF_Agent"
+                                row, fname, f"File={fname};Row={idx}", "SURPRISE_01", "Document_PDF", "agent2_ingestion"
                             )
                         )
 
@@ -209,14 +209,14 @@ class Agent2Ingestion:
                             row_dict = dict(zip(headers, cols))
                             records.append(
                                 AISemanticExtractor.map_header_dict(
-                                    row_dict, fname, f"File={fname};TableRow={r_idx}", "SURPRISE_HTML", "Web_Portal", "WebPortal_Agent"
+                                    row_dict, fname, f"File={fname};TableRow={r_idx}", "SURPRISE_HTML", "Web_Portal", "agent2_ingestion"
                                 )
                             )
                         elif len(cols) >= 7:
                             records.append({
                                 "source_id": "SURPRISE_HTML",
                                 "source_type": "Web_Portal",
-                                "agent": "WebPortal_Agent",
+                                "agent": "agent2_ingestion",
                                 "locator": f"File={fname};TableRow={r_idx}",
                                 "crop_name": cols[0],
                                 "variety_name": cols[1],
@@ -250,14 +250,14 @@ class Agent2Ingestion:
                                         row_dict = dict(zip(headers, cells))
                                         records.append(
                                             AISemanticExtractor.map_header_dict(
-                                                row_dict, fname, loc, "SURPRISE_PDF", "Document_PDF", "TabularPDF_Agent"
+                                                row_dict, fname, loc, "SURPRISE_PDF", "Document_PDF", "agent2_ingestion"
                                             )
                                         )
                                     elif len(cells) >= 7:
                                         records.append({
                                             "source_id": "SURPRISE_PDF",
                                             "source_type": "Document_PDF",
-                                            "agent": "TabularPDF_Agent",
+                                            "agent": "agent2_ingestion",
                                             "locator": loc,
                                             "crop_name": cells[0],
                                             "variety_name": cells[1],
@@ -275,7 +275,7 @@ class Agent2Ingestion:
                                             records.append({
                                                 "source_id": "SURPRISE_PDF",
                                                 "source_type": "Document_PDF",
-                                                "agent": "TabularPDF_Agent",
+                                                "agent": "agent2_ingestion",
                                                 "locator": loc,
                                                 "crop_name": non_empty[0][:45],
                                                 "variety_name": "General",
@@ -292,7 +292,7 @@ class Agent2Ingestion:
                                     if "|" in ln and (":" in ln or "=" in ln):
                                         records.append(
                                             AISemanticExtractor.extract_from_unstructured_text(
-                                                ln, fname, l_idx, "SURPRISE_PDF", "TabularPDF_Agent"
+                                                ln, fname, l_idx, "SURPRISE_PDF", "agent2_ingestion"
                                             )
                                         )
 
@@ -310,7 +310,7 @@ class Agent2Ingestion:
             records.append({
                 "source_id": "SURPRISE_FALLBACK",
                 "source_type": "Document_PDF",
-                "agent": "TabularPDF_Agent",
+                "agent": "agent2_ingestion",
                 "locator": f"File={fname};Page=1;Row=1",
                 "crop_name": "Rice (Paddy)",
                 "variety_name": "Winter Paddy (Sali)",

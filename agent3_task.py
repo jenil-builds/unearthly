@@ -1,7 +1,6 @@
 """
-Agent 3: Schema Normalizer, Self-Correction & Database Commit Agent (agent3_task.py)
-Implements SchemaNormalizer_Agent and SelfCorrectionNode.
-Enforces strict Assam LGD mapping, SI unit conversion, SHA-256 deduplication, and SQLite persistence.
+Agent 3: Schema Normalizer, Self-Correction & Database Validation Agent (agent3_task.py)
+Enforces Assam LGD mapping, SI unit conversion, season inference, and SHA-256 deduplication.
 """
 
 import re
@@ -41,13 +40,6 @@ ALLOWED_SI_UNITS = {"ha", "tonnes", "kg/ha", "INR", "Rs/Quintal", "mm", "days", 
 
 
 class Agent3TaskNormalizer:
-    """
-    Deterministic & Self-Correcting Normalizer Agent (SchemaNormalizer_Agent):
-    - Detects footnote markers ('*') and injected faults ('CORRUPT_NaN_99,400*') and invokes SelfCorrectionNode.
-    - Maps legacy/Assamese district names to canonical LGD codes (LGD_AS_%).
-    - Converts heterogeneous units (q/ha, Rs. Lakh, Hectares, Tonnes) into strict SI units.
-    """
-
     @staticmethod
     def resolve_district(raw_dist: str) -> Tuple[str, str, str]:
         raw_lower = str(raw_dist).strip().lower()
@@ -60,6 +52,17 @@ class Agent3TaskNormalizer:
             if k in raw_lower:
                 return val
         return (str(raw_dist).strip().title() or "Assam (State Total)", "LGD_AS_00", "Assam General")
+
+    @staticmethod
+    def infer_season(crop_name: str, variety_name: str) -> str:
+        c = f"{crop_name} {variety_name}".lower()
+        if any(k in c for k in ["sali", "winter paddy", "ranjit", "bahadur", "kharif"]):
+            return "Kharif (Winter/Sali)"
+        if any(k in c for k in ["mustard", "rapeseed", "wheat", "potato", "blackgram", "rabi", "boro", "summer"]):
+            return "Rabi / Summer"
+        if any(k in c for k in ["ahu", "autumn"]):
+            return "Autumn (Ahu)"
+        return "Annual / Multi-Season"
 
     @staticmethod
     def normalize_unit(val: float, unit: str) -> Tuple[float, str]:
@@ -102,21 +105,23 @@ class Agent3TaskNormalizer:
 
     def normalize_record(self, raw_rec: Dict[str, Any]) -> Dict[str, Any]:
         raw_v = str(raw_rec.get("raw_value", "1.0"))
-        agent_role = raw_rec.get("agent", "TabularPDF_Agent")
+        raw_agent = str(raw_rec.get("agent", "agent2_ingestion"))
+        agent_role = "agent2b_live_gis" if raw_agent in ["agent2b_live_gis", "LiveMandi_Agent", "GeoSpatial_Agent"] else "agent2_ingestion"
+
         retries = 0
+        validation_status = "VALIDATED"
         traj = [
-            f"SupervisorRouter->{agent_role}",
+            f"agent1_classifier->{agent_role}",
             f"Tool:{agent_role}_Extractor",
-            "SchemaNormalizer_Agent",
         ]
 
-        # Conditional Validation Gate -> SelfCorrectionNode
         if "*" in raw_v or "CORRUPT" in raw_v or "NaN" in raw_v:
             retries = 1
-            traj.extend(["SelfCorrectionNode:StripFootnoteAndCorruptTokens", "SchemaNormalizer_Agent"])
+            validation_status = "SELF_CORRECTED"
+            traj.append("agent3_task:SelfCorrectionNode")
             raw_v = re.sub(r"[A-Za-z_*]", "", raw_v).strip()
 
-        traj.append("DB_Commit_Ready")
+        traj.extend(["agent3_task:Normalized", "DB_Commit_Ready"])
 
         num_val = self.clean_num(raw_v)
         norm_val, norm_unit = self.normalize_unit(num_val, raw_rec.get("raw_unit", "ha"))
@@ -125,6 +130,7 @@ class Agent3TaskNormalizer:
         crop_name = str(raw_rec.get("crop_name") or "Rice (Paddy)").strip()
         variety_name = str(raw_rec.get("variety_name") or "General").strip()
         crop_id = hashlib.md5(f"{crop_name}|{variety_name}".encode()).hexdigest()[:12]
+        season_category = self.infer_season(crop_name, variety_name)
 
         source_id = str(raw_rec.get("source_id") or "SURPRISE_01").strip()
         locator = str(raw_rec.get("locator") or "Page=1;Row=1").strip()
@@ -145,6 +151,7 @@ class Agent3TaskNormalizer:
             "crop_id": crop_id,
             "crop_name": crop_name,
             "variety_name": variety_name,
+            "season_category": season_category,
             "canonical_district": canon_dist,
             "location_id": lgd_code,
             "agro_climatic_zone": zone,
@@ -152,6 +159,7 @@ class Agent3TaskNormalizer:
             "metric_name": metric_name,
             "normalized_value": norm_val,
             "normalized_unit": norm_unit,
+            "validation_status": validation_status,
             "record_hash": rec_hash,
             "retries": retries,
             "trajectory": " -> ".join(traj),

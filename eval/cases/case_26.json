@@ -2,7 +2,7 @@
   "case_id": "case_26",
   "source_id": "SRC_11",
   "source_group": "Database_Dashboard",
-  "expected_agent": "LiveMandi_Agent",
+  "expected_agent": "agent2b_live_gis",
   "language": "en",
   "raw_input_snippet": "[SRC_11 | URL=amiu.aau.ac.in;Row=6] Crop=Green Chilli | Variety=Local Hot | District=Barpeta | Period=2026-10-18 | Modal_Mandi_Price=4,200 Rs/Quintal",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Modal_Mandi_Price",
     "raw_value": "4,200",
     "raw_unit": "Rs/Quintal"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

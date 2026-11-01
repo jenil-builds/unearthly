@@ -2,7 +2,7 @@
   "case_id": "case_10",
   "source_id": "SRC_04",
   "source_group": "Document_PDF",
-  "expected_agent": "TabularPDF_Agent",
+  "expected_agent": "agent2_ingestion",
   "language": "en",
   "raw_input_snippet": "[SRC_04 | Page=1;Table=11(A).2;Row=4] Crop=Jute | Variety=Capsularis | District=Nagaon | Period=2022-23 | Area=64,033* Hectares",
   "structured_source_row": {
@@ -15,5 +15,7 @@
     "metric_name": "Area",
     "raw_value": "64,033*",
     "raw_unit": "Hectares"
-  }
+  },
+  "routing_agent": "agent1_classifier",
+  "normalizer_agent": "agent3_task"
 }

@@ -1,7 +1,7 @@
 {
   "case_id": "case_12",
   "source_id": "SRC_06",
-  "expected_agent": "WebPortal_Agent",
+  "expected_agent": "agent2_ingestion",
   "expected_trajectory": [
     "SupervisorRouter->WebPortal_Agent",
     "Tool:WebPortal_Agent_Extractor",
@@ -20,5 +20,11 @@
     "locator": "URL=kvkkokrajhar.aau.ac.in/pop.php;Table=Wheat_2"
   },
   "human_judge_groundedness": 1.0,
-  "human_judge_task_completion": 1.0
+  "human_judge_task_completion": 1.0,
+  "reference_trajectory": [
+    "agent1_classifier->agent2_ingestion",
+    "Tool:agent2_ingestion_Extractor",
+    "agent3_task:Normalized",
+    "DB_Commit_Ready"
+  ]
 }
