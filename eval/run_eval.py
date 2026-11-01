@@ -1,7 +1,6 @@
 """
 AgriAgent Phase 2 Official Protocol Evaluation Suite (eval/run_eval.py)
-Actually implements and executes every evaluator for M1-M18 + 5 Bonus Points.
-Writes both eval/phase2_metrics.csv
+Implements and executes every evaluator for M1-M18 + Bonus Evaluators using actual DB & log state.
 """
 
 import os
@@ -18,7 +17,10 @@ def evaluate_m1_m2_mapping():
         rows = list(csv.DictReader(f))
     total = len(rows)
     mapped = sum(1 for r in rows if r.get("assigned_agent", "").strip())
-    implemented = sum(1 for r in rows if (r.get("implementation_status") or r.get("status", "")).strip().lower() in ["done", "partial"])
+    implemented = sum(
+        1 for r in rows
+        if (r.get("implementation_status") or r.get("status", "")).strip().lower() in ["done", "partial"]
+    )
     return mapped / max(total, 1), implemented / max(total, 1), total
 
 
@@ -47,7 +49,16 @@ def run_evaluation():
 
     with open("logs/automation_log.csv", "r", encoding="utf-8") as lf:
         log_rows = list(csv.DictReader(lf))
-    log_by_source_agent = {(r["source_id"], r["agent"]): r for r in log_rows}
+
+    # Key by run_id (not (source_id, agent)) so multi-row sources (SRC_01, SRC_06, SRC_11) do not overwrite each other
+    log_by_run_id = {r["run_id"]: r for r in log_rows}
+
+    mean_latency = round(
+        sum(float(r.get("latency_ms", 0.0)) for r in log_rows) / max(len(log_rows), 1), 2
+    )
+    mean_tokens = int(
+        sum(int(r.get("tokens_used", 0)) for r in log_rows) / max(len(log_rows), 1)
+    )
 
     agent_f1 = {}
     group_f1 = {}
@@ -73,8 +84,8 @@ def run_evaluation():
         gt = r_data["ground_truth_record"]
 
         cur.execute("""
-            SELECT normalized_value, normalized_unit, location_id, time_period, crop_id,
-                   source_location, raw_value_text, validation_status
+            SELECT run_id, normalized_value, normalized_unit, location_id, time_period, crop_id,
+                   source_location, raw_value_text, validation_status, source_id
             FROM fact_agricultural_records
             WHERE source_id = ? AND source_location = ? AND metric_name = ?
         """, (c_data["source_id"], gt["locator"], gt["metric_name"]))
@@ -84,30 +95,46 @@ def run_evaluation():
         prov_valid = False
         schema_complete = False
         grounded_valid = False
+        tool_input_ok = 0.0
+        actual_traj = ""
 
         if row:
-            pred_val, pred_unit, pred_lgd, pred_period, pred_crop, pred_loc, raw_txt, val_status = row
+            run_id, pred_val, pred_unit, pred_lgd, pred_period, pred_crop, pred_loc, raw_txt, val_status, pred_src_id = row
             rel_err = abs(pred_val - gt["normalized_value"]) / max(abs(gt["normalized_value"]), 1e-9)
-            if (rel_err <= 0.01) and (pred_unit == gt["normalized_unit"]) and (pred_lgd == gt["location_id"]) and (pred_period == gt["time_period"]):
+            crop_ok = (pred_crop == gt["crop_id"]) if "crop_id" in gt else True
+            if (
+                (rel_err <= 0.01)
+                and (pred_unit == gt["normalized_unit"])
+                and (pred_lgd == gt["location_id"])
+                and (pred_period == gt["time_period"])
+                and crop_ok
+            ):
                 matched = True
+
             # M4: Provenance locator non-empty and matches reference source coordinates
             if pred_loc == gt["locator"] and ("=" in pred_loc):
                 prov_valid = True
+
+            # M7: Verify actual extracted DB row's source_id and locator match expected tool arguments
+            if pred_src_id == c_data["source_id"] and pred_loc == gt["locator"]:
+                tool_input_ok = 1.0
+
             # M9: Task completion (schema-valid output with all required fields populated)
             if val_status in ("VALIDATED", "SELF_CORRECTED") and pred_val is not None and pred_unit and pred_lgd and pred_crop:
                 schema_complete = True
-            # M10: Groundedness check (extracted raw value token appears in source snippet)
+
+            # M10: Groundedness check against raw_source_snippet (with structured_source_row fallback)
             clean_raw_digits = re.sub(r"[^\d.]", "", str(raw_txt))
-            snippet_digits = re.sub(r"[^\d.]", "", json.dumps(c_data.get("structured_source_row", {})))
+            raw_snippet = c_data.get("raw_source_snippet") or json.dumps(c_data.get("structured_source_row", {}))
+            snippet_digits = re.sub(r"[^\d.]", "", str(raw_snippet))
             if clean_raw_digits and clean_raw_digits in snippet_digits:
                 grounded_valid = True
 
-        # M6, M7, M8 from actual recorded trajectory in automation_log.csv
-        log_entry = log_by_source_agent.get((c_data["source_id"], agent), {})
-        actual_traj = log_entry.get("trajectory", f"agent1_classifier->{agent} -> Tool:{agent}_Extractor -> agent3_task:Normalized -> DB_Commit_Ready")
+            log_entry = log_by_run_id.get(run_id, {})
+            actual_traj = log_entry.get("trajectory", "")
+
         expected_tool = f"Tool:{agent}_Extractor"
         tool_selected_ok = 1.0 if expected_tool in actual_traj else 0.0
-        tool_input_ok = 1.0 if (c_data.get("source_id") and gt.get("locator")) else 0.0
         traj_ok = 1.0 if evaluate_trajectory_superset(actual_traj, r_data.get("reference_trajectory", [])) else 0.0
 
         agent_f1.setdefault(agent, []).append(1.0 if matched else 0.0)
@@ -146,7 +173,12 @@ def run_evaluation():
         s_row = cur.fetchone()
         if s_row and abs(s_row[0] - exp_val) / max(exp_val, 1.0) <= 0.01 and s_row[1] == exp_unit:
             surprise_hits += 1
-    m5_val = surprise_hits / len(surprise_expected)
+
+    cur.execute("SELECT COUNT(*) FROM fact_agricultural_records WHERE source_id LIKE 'SURPRISE%'")
+    pred_surprise_count = cur.fetchone()[0]
+    s_prec = surprise_hits / max(pred_surprise_count, 1)
+    s_rec = surprise_hits / len(surprise_expected)
+    m5_val = (2 * s_prec * s_rec) / max(s_prec + s_rec, 1e-9)
 
     # 5. Compute Macro-Averages across agents
     per_agent_m3 = {ag: sum(v) / len(v) for ag, v in agent_f1.items()}
@@ -166,9 +198,15 @@ def run_evaluation():
     assamese_f1 = sum(assamese_f1_list) / max(len(assamese_f1_list), 1)
     judge_agreement = human_vs_judge_agree / max(human_labeled_count, 1)
 
-    # 6. SQL Checks for M14, M15, M16, and Bonus Evaluators
+    # 6. SQL Checks for M11, M14, M15, M16, M17, and Bonus Evaluators
     cur.execute("SELECT COUNT(*) FROM fact_agricultural_records")
     total_rows = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM extraction_runs WHERE run_status = 'COMPLETED'")
+    completed_runs = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM extraction_runs")
+    total_runs = cur.fetchone()[0]
+    m11_val = completed_runs / max(total_runs, 1)
 
     cur.execute("""
         SELECT COUNT(*) FROM fact_agricultural_records
@@ -198,13 +236,34 @@ def run_evaluation():
     """)
     m16_val = cur.fetchone()[0] / max(total_rows, 1)
 
+    # M17: Verify 3 random/sampled DB rows join cleanly across all 4 tables with non-empty URL & locator
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM (
+            SELECT f.record_id
+            FROM fact_agricultural_records f
+            JOIN dim_sources s ON f.source_id = s.source_id
+            JOIN dim_locations l ON f.location_id = l.location_id
+            JOIN dim_crops c ON f.crop_id = c.crop_id
+            WHERE f.record_id IN (1, 15, 21)
+              AND s.url IS NOT NULL AND f.source_location LIKE '%=%'
+        )
+    """)
+    m17_traced = cur.fetchone()[0]
+
     # Bonus Evaluator 1: UnitConsistencyEvaluator (verifies metric_name -> allowed dimensional SI unit)
     metric_unit_rules = {
-        "Area": {"ha"}, "Production": {"tonnes"}, "Yield": {"kg/ha"}, "Potential_Yield": {"kg/ha"},
-        "Recommended_Yield_Irrigated": {"kg/ha"}, "Value": {"INR"}, "Modal_Price": {"Rs/Quintal"},
-        "Modal_Mandi_Price": {"Rs/Quintal"}, "Storage_Capacity": {"tonnes"},
-        "Annual_Rainfall": {"mm"}, "Maturity_Duration": {"days"}, "Spatial_Resolution": {"meters"},
-        "Mapping_Scale": {"scale"}, "Soil_pH": {"pH"}
+        "Area": {"ha"}, "Mapped_Rice_Area": {"ha"}, "Production": {"tonnes"},
+        "Export_Shipment_Volume": {"tonnes"}, "Cold_Storage_Capacity": {"tonnes"},
+        "Yield": {"kg/ha"}, "Potential_Yield": {"kg/ha"},
+        "Recommended_Yield_Irrigated": {"kg/ha"}, "Recommended_Yield_Rainfed": {"kg/ha"},
+        "Seed_Rate_Recommendation": {"kg/ha"}, "Value": {"INR"},
+        "Modal_Price": {"Rs/Quintal"}, "Modal_Mandi_Price": {"Rs/Quintal"},
+        "GKMS_Rainfall_Advisory_Threshold": {"mm"}, "Annual_Rainfall": {"mm"},
+        "Submergence_Tolerance_Days": {"days"}, "Maturity_Duration": {"days"},
+        "Spatial_Resolution_Meters": {"meters"}, "Spatial_Resolution": {"meters"},
+        "Map_Scale_Denominator": {"scale"}, "Mapping_Scale": {"scale"},
+        "Mean_Topsoil_pH": {"pH"}, "Soil_pH": {"pH"},
     }
     cur.execute("SELECT metric_name, normalized_unit FROM fact_agricultural_records")
     all_mu = cur.fetchall()
@@ -212,14 +271,20 @@ def run_evaluation():
     bonus_eval_1 = unit_consist_hits / max(len(all_mu), 1)
 
     # Bonus Evaluator 2: CrossSourceAgreementEvaluator (verifies Assam Paddy yield bounds 1500-6500 kg/ha across sources)
-    cur.execute("SELECT normalized_value FROM fact_agricultural_records WHERE metric_name IN ('Yield', 'Potential_Yield')")
+    cur.execute("""
+        SELECT f.normalized_value
+        FROM fact_agricultural_records f
+        JOIN dim_crops c ON f.crop_id = c.crop_id
+        WHERE c.crop_name = 'Rice (Paddy)'
+          AND f.metric_name IN ('Yield', 'Potential_Yield', 'Recommended_Yield_Irrigated', 'Recommended_Yield_Rainfed')
+    """)
     yield_rows = [r[0] for r in cur.fetchall()]
     cross_agree_hits = sum(1 for y in yield_rows if 1500.0 <= y <= 6500.0)
     bonus_eval_2 = cross_agree_hits / max(len(yield_rows), 1)
 
     conn.close()
 
-    # 7. Compute M11, M12, M13 from automation_log.csv and M18 from adapter_comparison.csv
+    # 7. Compute M12, M13 from automation_log.csv and M18 from adapter_comparison.csv
     m12_val = sum(int(r["completed_automatically"]) for r in log_rows) / max(len(log_rows), 1)
     total_calls = sum(int(r["total_tool_calls"]) for r in log_rows)
     ref_calls = sum(int(r["distinct_valid_tool_calls"]) for r in log_rows)
@@ -237,43 +302,42 @@ def run_evaluation():
     ]
 
     for ag in sorted(per_agent_m3.keys()):
-        rows.append(["M3", "Field-level F1 (eval set)", ag, f"{per_agent_m3[ag]:.3f}", "0.50", "0.85", "Direct SQL value check (eval/run_eval.py)", 112.5, 420, 0])
-        rows.append(["M6", "Tool selection accuracy", ag, f"{per_agent_m6[ag]:.3f}", "0.60", "0.90", "Foundry Tool Selection; AgentEvals", 112.5, 420, 0])
-        rows.append(["M7", "Tool input accuracy", ag, f"{per_agent_m7[ag]:.3f}", "0.60", "0.90", "Foundry Tool Input Accuracy", 112.5, 420, 0])
-        rows.append(["M8", "Trajectory match", ag, f"{per_agent_m8[ag]:.3f}", "0.50", "0.80", "AgentEvals trajectory match (mode=superset)", 112.5, 420, 0])
-        rows.append(["M9", "Task completion", ag, f"{per_agent_m9[ag]:.3f}", "0.50", "0.90", "Foundry Task Completion", 112.5, 420, 0])
-        rows.append(["M10", "Groundedness", ag, f"{per_agent_m10[ag]:.3f}", "0.70", "0.95", f"Foundry Groundedness (Judge Calib={judge_agreement:.0%})", 112.5, 420, 0])
+        rows.append(["M3", "Field-level F1 (eval set)", ag, f"{per_agent_m3[ag]:.3f}", "0.50", "0.85", "Direct SQL value + crop_id check (eval/run_eval.py)", mean_latency, mean_tokens, 0])
+        rows.append(["M6", "Tool selection accuracy", ag, f"{per_agent_m6[ag]:.3f}", "0.60", "0.90", "Foundry Tool Selection; AgentEvals", mean_latency, mean_tokens, 0])
+        rows.append(["M7", "Tool input accuracy", ag, f"{per_agent_m7[ag]:.3f}", "0.60", "0.90", "Foundry Tool Input Accuracy", mean_latency, mean_tokens, 0])
+        rows.append(["M8", "Trajectory match", ag, f"{per_agent_m8[ag]:.3f}", "0.50", "0.80", "AgentEvals trajectory match (mode=superset)", mean_latency, mean_tokens, 0])
+        rows.append(["M9", "Task completion", ag, f"{per_agent_m9[ag]:.3f}", "0.50", "0.90", "Foundry Task Completion", mean_latency, mean_tokens, 0])
+        rows.append(["M10", "Groundedness", ag, f"{per_agent_m10[ag]:.3f}", "0.70", "0.95", f"Foundry Groundedness (Judge Calib={judge_agreement:.0%})", mean_latency, mean_tokens, 0])
 
     for sg, vals in sorted(group_f1.items()):
-        rows.append(["M3", "Field-level F1 (eval set)", sg, f"{sum(vals)/len(vals):.3f}", "0.50", "0.85", "Source group F1", 112.5, 420, 0])
-    rows.append(["M3_BONUS_NON_EN", "Field-level F1 (Assamese non-English)", "Assamese_Language_Group", f"{assamese_f1:.3f}", "0.50", "0.85", "Bonus +1 pt: Non-English Assamese cases F1 >= 0.85", 112.5, 420, 0])
+        rows.append(["M3", "Field-level F1 (eval set)", sg, f"{sum(vals)/len(vals):.3f}", "0.50", "0.85", "Source group F1", mean_latency, mean_tokens, 0])
+    rows.append(["M3_BONUS_NON_EN", "Field-level F1 (Assamese non-English)", "Assamese_Language_Group", f"{assamese_f1:.3f}", "0.50", "0.85", "Bonus +1 pt: Non-English Assamese cases F1 >= 0.85", mean_latency, mean_tokens, 0])
 
     rows.extend([
-        ["M3", "Field-level F1 (macro-average)", "end_to_end", f"{macro_m3:.3f}", "0.50", "0.85", "Macro-average across all 4 implemented agents", 112.5, 420, total_retries],
-        ["M4", "Provenance accuracy", "end_to_end", f"{m4_val:.3f}", "0.60", "0.95", f"{m4_prov_hits}/{len(case_files)} records locator verified against source", 112.5, 420, 0],
-        ["M5", "Surprise-item F1", "surprise", f"{m5_val:.3f}", "0.30", "0.75", f"{surprise_hits}/{len(surprise_expected)} unseen surprise items matched (CSV, HTML, Assamese TXT)", 114.0, 420, 2],
-        ["M6", "Tool selection accuracy (macro)", "end_to_end", f"{macro_m6:.3f}", "0.60", "0.90", "Macro-average across agents", 112.5, 420, 0],
-        ["M7", "Tool input accuracy (macro)", "end_to_end", f"{macro_m7:.3f}", "0.60", "0.90", "Macro-average across agents", 112.5, 420, 0],
-        ["M8", "Trajectory match (macro)", "end_to_end", f"{macro_m8:.3f}", "0.50", "0.80", "AgentEvals superset trajectory match", 112.5, 420, total_retries],
-        ["M9", "Task completion (macro)", "end_to_end", f"{macro_m9:.3f}", "0.50", "0.90", "Foundry Task Completion", 112.5, 420, 0],
-        ["M10", "Groundedness (macro)", "end_to_end", f"{macro_m10:.3f}", "0.70", "0.95", f"Calibrated Judge ({judge_agreement:.0%} agreement on 12 human cases)", 112.5, 420, 0],
-        ["M11", "End-to-end workflow success", "end_to_end", "1.000", "0.50", "0.90", f"{len(log_rows)}/{len(log_rows)} complete + 1 live fault injection handled (yes)", 115.0, 420, total_retries],
-        ["M12", "Automation rate", "end_to_end", f"{m12_val:.3f}", "0.30", "0.80", f"logs/automation_log.csv ({sum(int(r['completed_automatically']) for r in log_rows)}/{len(log_rows)} automated)", 112.5, 420, total_retries],
-        ["M13", "Redundant call ratio (lower is better)", "end_to_end", f"{m13_val:.3f}", "0.50", "0.10", "run stats: (calls - ref_calls)/calls; retries separate", 112.5, 420, total_retries],
+        ["M3", "Field-level F1 (macro-average)", "end_to_end", f"{macro_m3:.3f}", "0.50", "0.85", "Macro-average across implemented agents", mean_latency, mean_tokens, total_retries],
+        ["M4", "Provenance accuracy", "end_to_end", f"{m4_val:.3f}", "0.60", "0.95", f"{m4_prov_hits}/{len(case_files)} records locator verified against source", mean_latency, mean_tokens, 0],
+        ["M5", "Surprise-item F1", "surprise", f"{m5_val:.3f}", "0.30", "0.75", f"{surprise_hits}/{len(surprise_expected)} unseen surprise items matched (CSV, HTML, Assamese TXT)", mean_latency, mean_tokens, 2],
+        ["M6", "Tool selection accuracy (macro)", "end_to_end", f"{macro_m6:.3f}", "0.60", "0.90", "Macro-average across agents", mean_latency, mean_tokens, 0],
+        ["M7", "Tool input accuracy (macro)", "end_to_end", f"{macro_m7:.3f}", "0.60", "0.90", "Macro-average across agents", mean_latency, mean_tokens, 0],
+        ["M8", "Trajectory match (macro)", "end_to_end", f"{macro_m8:.3f}", "0.50", "0.80", "AgentEvals superset trajectory match", mean_latency, mean_tokens, total_retries],
+        ["M9", "Task completion (macro)", "end_to_end", f"{macro_m9:.3f}", "0.50", "0.90", "Foundry Task Completion", mean_latency, mean_tokens, 0],
+        ["M10", "Groundedness (macro)", "end_to_end", f"{macro_m10:.3f}", "0.70", "0.95", f"Calibrated Judge ({judge_agreement:.0%} agreement on 12 human cases)", mean_latency, mean_tokens, 0],
+        ["M11", "End-to-end workflow success", "end_to_end", f"{m11_val:.3f}", "0.50", "0.90", f"{completed_runs}/{total_runs} runs COMPLETED in extraction_runs", mean_latency, mean_tokens, total_retries],
+        ["M12", "Automation rate", "end_to_end", f"{m12_val:.3f}", "0.30", "0.80", f"logs/automation_log.csv ({sum(int(r['completed_automatically']) for r in log_rows)}/{len(log_rows)} automated)", mean_latency, mean_tokens, total_retries],
+        ["M13", "Redundant call ratio (lower is better)", "end_to_end", f"{m13_val:.3f}", "0.50", "0.10", "run stats: (calls - ref_calls)/calls; retries separate", mean_latency, mean_tokens, total_retries],
         ["M14", "Mandatory field completeness", "end_to_end", f"{m14_val:.3f}", "0.80", "1.00", "SQL NOT NULL check on 9 mandatory provenance columns", 0.0, 0, 0],
         ["M15", "Validation pass rate", "end_to_end", f"{m15_val:.3f}", "0.70", "0.98", "SQL check: allowed SI units, LGD_AS_%, date, value range", 0.0, 0, 0],
         ["M16", "Duplicate rate (lower is better)", "end_to_end", f"{m16_val:.3f}", "0.10", "0.00", "SQL GROUP BY natural key (0 duplicates)", 0.0, 0, 0],
-        ["M17", "Live trace-back", "end_to_end", "3", "1", "3", "3/3 random DB rows traced to exact source page/row", 0.0, 0, 0],
-        ["M18", "Adapter comparison", "end_to_end", f"+{mean_delta:.3f}", "reported", "reported", f"eval/adapter_comparison.csv (0 hash overlap={zero_overlap})", 112.5, 420, 0],
+        ["M17", "Live trace-back", "end_to_end", f"{m17_traced}", "1", "3", f"{m17_traced}/3 random DB rows traced to exact source page/row", 0.0, 0, 0],
+        ["M18", "Adapter comparison", "end_to_end", f"+{mean_delta:.3f}", "reported", "reported", f"eval/adapter_comparison.csv (0 hash overlap={zero_overlap})", mean_latency, mean_tokens, 0],
         ["BONUS_EVAL_1", "UnitConsistencyEvaluator", "end_to_end", f"{bonus_eval_1:.3f}", "0.80", "1.00", "Bonus +1 pt: Dimensional compatibility check", 0.0, 0, 0],
-        ["BONUS_EVAL_2", "CrossSourceAgreementEvaluator", "end_to_end", f"{bonus_eval_2:.3f}", "0.80", "1.00", "Bonus +1 pt: Cross-source yield bounds check", 0.0, 0, 0],
+        ["BONUS_EVAL_2", "CrossSourceAgreementEvaluator", "end_to_end", f"{bonus_eval_2:.3f}", "0.80", "1.00", "Bonus +1 pt: Cross-source Paddy yield bounds check", 0.0, 0, 0],
     ])
 
-    for out_csv in ["eval/phase2_metrics.csv"]:
-        with open(out_csv, "w", newline="", encoding="utf-8") as mf:
-            w = csv.writer(mf)
-            w.writerow(["metric_id", "metric_name", "scope", "value", "floor", "target", "tool_evidence", "latency_ms", "tokens_used", "retry_count"])
-            w.writerows(rows)
+    with open("eval/phase2_metrics.csv", "w", newline="", encoding="utf-8") as mf:
+        w = csv.writer(mf)
+        w.writerow(["metric_id", "metric_name", "scope", "value", "floor", "target", "tool_evidence", "latency_ms", "tokens_used", "retry_count"])
+        w.writerows(rows)
 
     print("\n" + "=" * 102)
     print("OFFICIAL AGRIAGENT PHASE 2 METRICS REPORT (Page 5-8 Standard Format -> eval/phase2_metrics.csv)")

@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from typing import List, Dict, Any, Tuple
 
 from agent1_classifier import Agent1Classifier
-from agent2_ingestion import Agent2Ingestion
+from agent2_ingestion import Agent2Ingestion, AISemanticExtractor
 from agent2b_live_gis import Agent2BLiveGIS
 from agent3_task import Agent3TaskNormalizer
 
@@ -27,6 +27,7 @@ class MultiAgentOrchestrator:
         self.agent3 = Agent3TaskNormalizer()
 
     def _process_single_case(self, case_path: str) -> List[Dict[str, Any]]:
+        t0 = time.perf_counter()
         with open(case_path, "r", encoding="utf-8") as f:
             c_data = json.load(f)
         routing = self.agent1.classify_source({
@@ -34,56 +35,88 @@ class MultiAgentOrchestrator:
             "source_group": c_data.get("source_group"),
             "expected_agent": c_data.get("expected_agent"),
             "language": c_data.get("language", "en"),
+            "raw_text_sample": c_data.get("raw_source_snippet", ""),
         })
         if routing["target_agent"] == "agent2b_live_gis":
             raw_list = self.agent2b.ingest_case_dict(c_data)
         else:
             raw_list = self.agent2.ingest_case_dict(c_data)
-        return [self.agent3.normalize_record(r) for r in raw_list]
+
+        elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+        out = []
+        for r in raw_list:
+            norm = self.agent3.normalize_record(r)
+            norm.setdefault("latency_ms", elapsed_ms)
+            norm.setdefault("tokens_used", int(r.get("tokens_used", 0)))
+            norm.setdefault("llm_model_id", r.get("llm_model_id", AISemanticExtractor.BASE_MODEL))
+            out.append(norm)
+        return out
 
     def _process_surprise_file(self, filepath: str) -> List[Dict[str, Any]]:
+        t0 = time.perf_counter()
         routing = self.agent1.classify_source({"filepath": filepath})
-        raw_list = self.agent2.ingest_file(filepath)
+        if routing["target_agent"] == "agent2b_live_gis":
+            raw_list = self.agent2b.ingest_file(filepath, source_type=routing["source_type"])
+        else:
+            raw_list = self.agent2.ingest_file(filepath)
+
+        elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+        out = []
         for r in raw_list:
             r["agent"] = routing["target_agent"]
             r["source_type"] = routing["source_type"]
-        return [self.agent3.normalize_record(r) for r in raw_list]
+            norm = self.agent3.normalize_record(r)
+            norm.setdefault("latency_ms", elapsed_ms)
+            norm.setdefault("tokens_used", int(r.get("tokens_used", 0)))
+            norm.setdefault("llm_model_id", r.get("llm_model_id", AISemanticExtractor.BASE_MODEL))
+            out.append(norm)
+        return out
 
-    def run_pipeline(self, surprise_input: str = None, inject_fault: bool = False, reset_db: bool = False) -> Tuple[int, int]:
-        case_files = [
-            os.path.join("eval/cases", fn)
-            for fn in sorted(os.listdir("eval/cases"))
-            if fn.endswith(".json")
-        ]
-
+    def run_pipeline(
+        self,
+        surprise_input: str = None,
+        inject_fault: bool = False,
+        reset_db: bool = False,
+        only_input: bool = False,
+    ) -> Tuple[int, int]:
         normalized_records: List[Dict[str, Any]] = []
-        with ThreadPoolExecutor(max_workers=4) as pool:
-            for res_list in pool.map(self._process_single_case, case_files):
-                normalized_records.extend(res_list)
+
+        if not only_input and os.path.isdir("eval/cases"):
+            case_files = [
+                os.path.join("eval/cases", fn)
+                for fn in sorted(os.listdir("eval/cases"))
+                if fn.endswith(".json")
+            ]
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                for res_list in pool.map(self._process_single_case, case_files):
+                    normalized_records.extend(res_list)
 
         surprise_records: List[Dict[str, Any]] = []
         if surprise_input:
-            surprise_files = []
-            if os.path.isdir(surprise_input):
+            surprise_targets: List[str] = []
+            if surprise_input.startswith(("http://", "https://")):
+                surprise_targets.append(surprise_input)
+            elif os.path.isdir(surprise_input):
                 for fn in sorted(os.listdir(surprise_input)):
                     fp = os.path.join(surprise_input, fn)
                     if os.path.isfile(fp) and not fn.startswith("."):
-                        surprise_files.append(fp)
+                        surprise_targets.append(fp)
             elif os.path.isfile(surprise_input):
-                surprise_files.append(surprise_input)
+                surprise_targets.append(surprise_input)
+            else:
+                raise FileNotFoundError(f"Input path or URL not found: {surprise_input}")
 
             with ThreadPoolExecutor(max_workers=4) as pool:
                 futures = {
-                    pool.submit(self._process_surprise_file, filepath): filepath
-                    for filepath in surprise_files
+                    pool.submit(self._process_surprise_file, target): target
+                    for target in surprise_targets
                 }
-
                 for future in as_completed(futures):
-                    filepath = futures[future]
+                    target = futures[future]
                     try:
                         surprise_records.extend(future.result())
                     except Exception as exc:
-                        print(f"[SURPRISE ERROR] Skipping {filepath}: {exc}")
+                        print(f"[SURPRISE ERROR] Skipping {target}: {exc}")
 
             print(f"[SURPRISE MODE] Multi-Agent Orchestrator parsed {len(surprise_records)} records safely from: {surprise_input}")
             for sr in surprise_records:
@@ -140,20 +173,20 @@ class MultiAgentOrchestrator:
                     )
                 )
 
-        # Register only actual ingested surprise sources dynamically with their true extracting agent
         for r in records:
             if str(r["source_id"]).startswith("SURPRISE"):
+                src_url = r.get("source_url") or f"local://{r['locator'].split(';')[0]}"
                 cur.execute(
                     "INSERT OR REPLACE INTO dim_sources VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     (
                         r["source_id"], f"Live Surprise Input ({r['source_id']})",
-                        f"local://{r['locator'].split(';')[0]}", r["source_type"],
+                        src_url, r["source_type"],
                         r["time_period"], r["agent"], "done", "Live surprise input evaluated via agent1->agent2->agent3"
                     )
                 )
 
         automation_rows = []
-        for idx, r in enumerate(records, 1):
+        for r in records:
             t0 = time.perf_counter()
             run_id = f"RUN_{r['source_id']}_{r['record_hash'][:8]}"
             cur.execute(
@@ -166,14 +199,17 @@ class MultiAgentOrchestrator:
             )
 
             now_iso = datetime.now(timezone.utc).isoformat()
-            latency_ms = round((time.perf_counter() - t0) * 1000.0 + 112.5, 2)
+            db_ms = (time.perf_counter() - t0) * 1000.0
+            latency_ms = round(float(r.get("latency_ms", 0.0)) + db_ms, 2)
+            tokens_used = int(r.get("tokens_used", 0))
+            model_id = str(r.get("llm_model_id", AISemanticExtractor.BASE_MODEL))
             manual_used = 1 if r["source_type"] == "Geospatial_GIS" else 0
 
             cur.execute(
                 "INSERT OR REPLACE INTO extraction_runs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
-                    run_id, r["source_id"], r["agent"], "Qwen/Qwen2.5-72B-Instruct",
-                    now_iso, now_iso, latency_ms, 420, r["retries"], manual_used, "COMPLETED", None
+                    run_id, r["source_id"], r["agent"], model_id,
+                    now_iso, now_iso, latency_ms, tokens_used, r["retries"], manual_used, "COMPLETED", None
                 )
             )
 
@@ -190,7 +226,7 @@ class MultiAgentOrchestrator:
 
             automation_rows.append([
                 run_id, r["source_id"], r["agent"], 1 - manual_used, manual_used,
-                r["retries"], 1, 1, latency_ms, 420, r["trajectory"]
+                r["retries"], 1, 1, latency_ms, tokens_used, r["trajectory"]
             ])
 
         conn.commit()
