@@ -12,12 +12,7 @@ class Agent2BLiveGIS:
         r = case_data.get("structured_source_row", case_data)
         sgroup = case_data.get("source_group", "Database_Dashboard")
         required_fields = (
-            "source_id",
-            "locator",
             "crop_name",
-            "district_raw",
-            "time_period",
-            "metric_name",
             "raw_value",
             "raw_unit",
         )
