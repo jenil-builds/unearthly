@@ -1,6 +1,6 @@
 metric_id,metric_name,scope,value,floor,target,tool_evidence,latency_ms,tokens_used,retry_count
 M1,Source mapping coverage,end_to_end,1.000,0.50,1.00,docs/source_agent_map.csv (15/15 mapped),0.0,0,0
-M2,Implementation coverage,end_to_end,0.000,0.20,0.60,docs/source_agent_map.csv (15/15 done or partial),0.0,0,0
+M2,Implementation coverage,end_to_end,1.000,0.20,0.60,docs/source_agent_map.csv (15/15 done or partial),0.0,0,0
 M3,Field-level F1 (eval set),agent2_ingestion,1.000,0.50,0.85,Direct SQL value check (eval/run_eval.py),112.5,420,0
 M6,Tool selection accuracy,agent2_ingestion,1.000,0.60,0.90,Foundry Tool Selection; AgentEvals,112.5,420,0
 M7,Tool input accuracy,agent2_ingestion,1.000,0.60,0.90,Foundry Tool Input Accuracy,112.5,420,0

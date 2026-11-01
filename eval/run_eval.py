@@ -18,7 +18,7 @@ def evaluate_m1_m2_mapping():
         rows = list(csv.DictReader(f))
     total = len(rows)
     mapped = sum(1 for r in rows if r.get("assigned_agent", "").strip())
-    implemented = sum(1 for r in rows if r.get("status", "").strip().lower() in ["done", "partial"])
+    implemented = sum(1 for r in rows if (r.get("implementation_status") or r.get("status", "")).strip().lower() in ["done", "partial"])
     return mapped / max(total, 1), implemented / max(total, 1), total
 
 
