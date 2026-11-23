@@ -1,4 +1,4 @@
-﻿"""Fault-Isolated Source-of-Truth Ingestion Pipeline (ingestion/pipeline.py)."""
+"""Fault-Isolated Source-of-Truth Ingestion Pipeline (ingestion/pipeline.py)."""
 import csv
 import json
 import os
@@ -139,6 +139,8 @@ class SourceOfTruthPipeline:
             adapter = self.registry.get(cfg.adapter_type)
             if hasattr(adapter, "mapper") and hasattr(adapter.mapper, "ai"):
                 adapter.mapper.ai = self.ai
+            if hasattr(adapter, "html_helper") and hasattr(adapter.html_helper, "mapper"):
+                adapter.html_helper.mapper.ai = self.ai
             raw = adapter.fetch(cfg, etag=prev_etag, last_modified=prev_lm)
             if raw.error_message:
                 lat = round((time.perf_counter() - t0) * 1000.0, 2)
@@ -162,7 +164,9 @@ class SourceOfTruthPipeline:
             valid_norm, rejected, val_tokens, val_model = self.validator.validate_batch(extracted, source_text=src_text)
             if val_model:
                 model_used = val_model
-            if extracted and not valid_norm and rejected:
+            if not extracted:
+                status, err_msg = "EMPTY_PARSE", "Adapter parsed 0 records from source payload."
+            elif not valid_norm and rejected:
                 status, err_msg = "FAILED", f"All {len(rejected)} extracted records failed grounding/validation: {rejected[0]}"
             elif rejected:
                 status, err_msg = "PARTIAL", f"{len(rejected)} record(s) rejected: {rejected[0]}"

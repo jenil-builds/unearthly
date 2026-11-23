@@ -54,7 +54,9 @@ class RefreshScheduler:
         try:
             while max_cycles is None or cycle < max_cycles:
                 cycle += 1
-                all_cycles.append(self.run_due(force=False, max_workers=max_workers))
+                summaries = self.run_due(force=False, max_workers=max_workers)
+                if max_cycles is not None:
+                    all_cycles.append(summaries)
                 if max_cycles is not None and cycle >= max_cycles:
                     break
                 if poll_seconds > 0:

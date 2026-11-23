@@ -360,7 +360,7 @@ class Agent2Ingestion:
 
         parsed = self._validate_safe_url(url)
         headers = {"User-Agent": "AgriAgent-Assam/2.0 (+https://github.com/kunj3690/agriagent-assam)"}
-        resp = requests.get(url, headers=headers, timeout=30)
+        resp = requests.get(url, headers=headers, timeout=30, allow_redirects=False)
         resp.raise_for_status()
 
         content_type = resp.headers.get("Content-Type", "").lower()

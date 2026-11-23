@@ -48,6 +48,7 @@ class SourceRecord:
     llm_model_id: str = "deterministic_parser"
     tokens_used: int = 0
     latency_ms: float = 0.0
+    is_structured_table: bool = False
 
 @dataclass
 class AIResponse:

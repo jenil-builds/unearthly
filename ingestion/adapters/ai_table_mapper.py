@@ -88,7 +88,7 @@ class AISchemaMapper:
                 metric = _nfc(row.get(mapping.get("metric_name_col") or "", ""))
                 raw_val = _nfc(row.get(val_col, "")).translate(ASSAMESE_DIGIT_MAP)
                 raw_unit = _nfc(row.get(mapping.get("raw_unit_col") or "", ""))
-                out.append(SourceRecord(source_id=config.source_id, source_url=source_url, source_type=config.source_group, extracting_agent=config.assigned_agent, locator=loc, crop_name=crop, variety_name=variety, district_raw=district, time_period=period, metric_name=metric, raw_value=raw_val, raw_unit=raw_unit, verbatim_quote=quote, fetched_at_utc=fetched_at_utc, llm_model_id=model_id, tokens_used=tokens_used if idx == 1 else 0, latency_ms=latency_ms if idx == 1 else 0.0))
+                out.append(SourceRecord(source_id=config.source_id, source_url=source_url, source_type=config.source_group, extracting_agent=config.assigned_agent, locator=loc, crop_name=crop, variety_name=variety, district_raw=district, time_period=period, metric_name=metric, raw_value=raw_val, raw_unit=raw_unit, verbatim_quote=quote, fetched_at_utc=fetched_at_utc, llm_model_id=model_id, tokens_used=tokens_used if idx == 1 else 0, latency_ms=latency_ms if idx == 1 else 0.0, is_structured_table=True))
             else:
                 for wm in mapping.get("wide_metric_cols") or []:
                     col_name = wm.get("col")
@@ -96,7 +96,7 @@ class AISchemaMapper:
                         continue
                     raw_val = _nfc(row.get(col_name, "")).translate(ASSAMESE_DIGIT_MAP)
                     raw_unit = _nfc(row.get(mapping.get("raw_unit_col") or "", "")) or _nfc(wm.get("unit", ""))
-                    out.append(SourceRecord(source_id=config.source_id, source_url=source_url, source_type=config.source_group, extracting_agent=config.assigned_agent, locator=f"{loc};Col={col_name}", crop_name=crop, variety_name=variety, district_raw=district, time_period=period, metric_name=_nfc(wm.get("metric_name", "")), raw_value=raw_val, raw_unit=raw_unit, verbatim_quote=quote, fetched_at_utc=fetched_at_utc, llm_model_id=model_id, tokens_used=tokens_used if (idx == 1 and not out) else 0, latency_ms=latency_ms if (idx == 1 and not out) else 0.0))
+                    out.append(SourceRecord(source_id=config.source_id, source_url=source_url, source_type=config.source_group, extracting_agent=config.assigned_agent, locator=f"{loc};Col={col_name}", crop_name=crop, variety_name=variety, district_raw=district, time_period=period, metric_name=_nfc(wm.get("metric_name", "")), raw_value=raw_val, raw_unit=raw_unit, verbatim_quote=quote, fetched_at_utc=fetched_at_utc, llm_model_id=model_id, tokens_used=tokens_used if (idx == 1 and not out) else 0, latency_ms=latency_ms if (idx == 1 and not out) else 0.0, is_structured_table=True))
         return out
 
     def extract_unstructured_text(self, config: SourceConfig, text: str, locator_prefix: str, fetched_at_utc: str, source_url: str) -> List[SourceRecord]:

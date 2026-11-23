@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS source_fetch_log (
     records_extracted INTEGER NOT NULL DEFAULT 0,
     records_committed INTEGER NOT NULL DEFAULT 0,
     records_rejected INTEGER NOT NULL DEFAULT 0,
-    fetch_status TEXT NOT NULL CHECK (fetch_status IN ('UPDATED', 'NOT_MODIFIED', 'PARTIAL', 'FAILED', 'SKIPPED_NON_DATA')),
+    fetch_status TEXT NOT NULL CHECK (fetch_status IN ('UPDATED', 'NOT_MODIFIED', 'PARTIAL', 'FAILED', 'SKIPPED_NON_DATA', 'EMPTY_PARSE')),
     error_message TEXT,
     FOREIGN KEY (source_id) REFERENCES dim_sources(source_id),
     FOREIGN KEY (run_id) REFERENCES extraction_runs(run_id)

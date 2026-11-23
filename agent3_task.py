@@ -141,6 +141,8 @@ class Agent3TaskNormalizer:
     def normalize_unit(val: float, unit: str) -> Tuple[float, str]:
         u_raw = str(unit).strip()
         u = u_raw.lower()
+        if u in ["t/ha", "tonnes/ha", "tonne/ha", "mt/ha", "tons/ha", "ton/ha", "টন/হেক্টৰ"]:
+            return round(val * 1000.0, 2), "kg/ha"
         if u in ["q/ha", "quintal/ha", "quintals/ha", "qtl/ha", "কুইণ্টল/হেক্টৰ"]:
             return round(val * 100.0, 2), "kg/ha"
         if u in ["kg/ha", "kgs/ha", "কিগ্ৰা/হেক্টৰ"]:

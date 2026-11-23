@@ -17,5 +17,5 @@ class CSVFeedAdapter(BaseSourceAdapter):
     def parse(self, config: SourceConfig, raw: RawFetchResult) -> List[SourceRecord]:
         if raw.not_modified or not raw.raw_bytes:
             return []
-        rows = list(csv.DictReader(io.StringIO(raw.raw_bytes.decode("utf-8", errors="replace"))))
+        rows = list(csv.DictReader(io.StringIO(raw.raw_bytes.decode("utf-8-sig", errors="replace"))))
         return self.mapper.rows_to_source_records(config, rows, f"CSV={config.source_id}", raw.fetched_at_utc, raw.source_url)
