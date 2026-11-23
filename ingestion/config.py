@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 PROVIDER_DEFAULTS: Dict[str, Dict[str, str]] = {
-    "groq": {"api_key_env": "GROQ_API_KEY", "base_url_env": "GROQ_BASE_URL", "default_base_url": "https://api.groq.com/openai/v1", "model_env": "GROQ_DEFAULT_MODEL", "default_model": "llama-3.3-70b-versatile"},
+    "groq": {"api_key_env": "GROQ_API_KEY", "base_url_env": "GROQ_BASE_URL", "default_base_url": "https://api.groq.com/openai/v1", "model_env": "GROQ_DEFAULT_MODEL", "default_model": "openai/gpt-oss-120b"},
     "openrouter": {"api_key_env": "OPENROUTER_API_KEY", "base_url_env": "OPENROUTER_BASE_URL", "default_base_url": "https://openrouter.ai/api/v1", "model_env": "OPENROUTER_DEFAULT_MODEL", "default_model": "qwen/qwen-2.5-72b-instruct"},
     "gemini": {"api_key_env": "GEMINI_API_KEY", "base_url_env": "GEMINI_BASE_URL", "default_base_url": "https://generativelanguage.googleapis.com/v1beta/openai", "model_env": "GEMINI_DEFAULT_MODEL", "default_model": "gemini-2.5-flash"},
     "openai": {"api_key_env": "OPENAI_API_KEY", "base_url_env": "OPENAI_BASE_URL", "default_base_url": "https://api.openai.com/v1", "model_env": "OPENAI_DEFAULT_MODEL", "default_model": "gpt-4o-mini"},
