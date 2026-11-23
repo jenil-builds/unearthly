@@ -5,6 +5,7 @@ CREATE TABLE dim_crops (
     variety_name TEXT NOT NULL DEFAULT 'General',
     season_category TEXT NOT NULL
 );
+INSERT INTO "dim_crops" VALUES('23f0bb24f0f4','Rice (Paddy)','Winter Paddy (Sali)','Kharif (Winter/Sali)');
 INSERT INTO "dim_crops" VALUES('a12b397c6524','Rice (Paddy)','Autumn Paddy (Ahu)','Autumn (Ahu)');
 INSERT INTO "dim_crops" VALUES('2a0f2be01a25','Rice (Paddy)','Summer Paddy (Boro)','Rabi / Summer');
 INSERT INTO "dim_crops" VALUES('078c7e0515c1','Rapeseed & Mustard','General','Rabi / Summer');
@@ -15,8 +16,10 @@ INSERT INTO "dim_crops" VALUES('16faa1e6bab1','Jute','Capsularis','Annual / Mult
 INSERT INTO "dim_crops" VALUES('6819af5baaf2','Wheat','DBW-14','Rabi / Summer');
 INSERT INTO "dim_crops" VALUES('923833f44626','Wheat','Sonalika','Rabi / Summer');
 INSERT INTO "dim_crops" VALUES('b06f00f1ccd2','Grass Pea (Khesari)','Ratan (Bio L-212)','Annual / Multi-Season');
+INSERT INTO "dim_crops" VALUES('47e8938bc4db','Rapeseed & Mustard','TS-38','Rabi / Summer');
 INSERT INTO "dim_crops" VALUES('fb6d36873543','Rice (Paddy)','শালি ধান (Sali Rice)','Kharif (Winter/Sali)');
 INSERT INTO "dim_crops" VALUES('d167ea5b350e','Rapeseed & Mustard','সৰিয়হ (Mustard)','Rabi / Summer');
+INSERT INTO "dim_crops" VALUES('48e5e0708071','Rice (Paddy)','ৰঞ্জিত চাব-১ (Ranjit Sub-1)','Kharif (Winter/Sali)');
 INSERT INTO "dim_crops" VALUES('2c547e48d931','Rice (Paddy)','Kanaklata (Boro)','Rabi / Summer');
 INSERT INTO "dim_crops" VALUES('b5ad7cd0ec4b','Potato','Kufri Jyoti','Rabi / Summer');
 INSERT INTO "dim_crops" VALUES('b7e3f3536fea','Bhut Jolokia (King Chilli)','Assam Export Cluster','Annual / Multi-Season');
@@ -32,29 +35,23 @@ INSERT INTO "dim_crops" VALUES('69865f2512e0','Rice (Paddy)','Flood-Prone Agro-Z
 INSERT INTO "dim_crops" VALUES('682b1b09071c','Soil Resource Layer','Alluvial Acidic Soil','Annual / Multi-Season');
 INSERT INTO "dim_crops" VALUES('0088fb21f5c9','Land Use Land Cover','Assam Agri Cropland Mask','Annual / Multi-Season');
 INSERT INTO "dim_crops" VALUES('e1bfe9d5fee8','Rice (Paddy)','Boro Satellite Mask','Rabi / Summer');
-INSERT INTO "dim_crops" VALUES('23f0bb24f0f4','Rice (Paddy)','Winter Paddy (Sali)','Kharif (Winter/Sali)');
-INSERT INTO "dim_crops" VALUES('47e8938bc4db','Rapeseed & Mustard','TS-38','Rabi / Summer');
-INSERT INTO "dim_crops" VALUES('09556c6dee01','Wheat','DBW-187','Rabi / Summer');
-INSERT INTO "dim_crops" VALUES('b3a7a8ff9e4e','Potato','Kufri Pukhraj','Rabi / Summer');
-INSERT INTO "dim_crops" VALUES('48e5e0708071','Rice (Paddy)','ৰঞ্জিত চাব-১ (Ranjit Sub-1)','Kharif (Winter/Sali)');
-INSERT INTO "dim_crops" VALUES('2018dedce162','Rapeseed & Mustard','TS-46','Rabi / Summer');
 CREATE TABLE dim_locations (
     location_id TEXT PRIMARY KEY CHECK (location_id LIKE 'LGD_AS_%'),
     canonical_district_name TEXT NOT NULL,
     agro_climatic_zone TEXT NOT NULL,
     state_name TEXT NOT NULL DEFAULT 'Assam'
 );
+INSERT INTO "dim_locations" VALUES('LGD_AS_300','Sivasagar','Upper Brahmaputra Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_294','Kokrajhar','Lower Brahmaputra Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_282','Cachar','Barak Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_301','Sonitpur','North Bank Plains Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_288','Golaghat','Upper Brahmaputra Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_283','Darrang','North Bank Plains Zone','Assam');
-INSERT INTO "dim_locations" VALUES('LGD_AS_00','Assam (State Total)','All Zones','Assam');
-INSERT INTO "dim_locations" VALUES('LGD_AS_300','Sivasagar','Upper Brahmaputra Valley Zone','Assam');
-INSERT INTO "dim_locations" VALUES('LGD_AS_297','Nagaon','Central Brahmaputra Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_280','Barpeta','Lower Brahmaputra Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_290','Jorhat','Upper Brahmaputra Valley Zone','Assam');
 INSERT INTO "dim_locations" VALUES('LGD_AS_291','Kamrup','Lower Brahmaputra Valley Zone','Assam');
+INSERT INTO "dim_locations" VALUES('LGD_AS_00','Assam (State Total)','All Zones','Assam');
+INSERT INTO "dim_locations" VALUES('LGD_AS_297','Nagaon','Central Brahmaputra Valley Zone','Assam');
 CREATE TABLE dim_sources (
     source_id TEXT PRIMARY KEY,
     source_name TEXT NOT NULL,
@@ -80,9 +77,6 @@ INSERT INTO "dim_sources" VALUES('SRC_12','AAU-IRRI APART Web GIS - Rice-Fallow 
 INSERT INTO "dim_sources" VALUES('SRC_13','RKB Assam - Web GIS Portal','https://rkbassam.aau.ac.in/web-gis','Geospatial_GIS','Current','agent2b_live_gis','partial','WMS capabilities extracted; raster stats in Phase 3');
 INSERT INTO "dim_sources" VALUES('SRC_14','NBSS&LUP BHOOMI Geoportal - Assam Soil','https://bhoomigeoportal-nbsslup.in/BHOOMI_StateWise/Assam.php','Geospatial_GIS','Current','agent2b_live_gis','partial','Metadata extracted; spatial polygon query in Phase 3');
 INSERT INTO "dim_sources" VALUES('SRC_15','NESDR & ASTEC Remote Sensing Datasets','https://www.nesdr.gov.in/search/og_group_ref/148/type/dataset?sort_by=changed','Geospatial_GIS','Multi-year','agent2b_live_gis','partial','Catalog metadata extracted; raster tiling in Phase 3');
-INSERT INTO "dim_sources" VALUES('SURPRISE_01','Live Surprise Input (SURPRISE_01)','local://Page=1','Document_PDF','2024-25','agent2_ingestion','done','Live surprise input evaluated via agent1->agent2->agent3');
-INSERT INTO "dim_sources" VALUES('SURPRISE_HTML','Live Surprise Input (SURPRISE_HTML)','local://File=surprise_2_aau_bulletin.html','Web_Portal','2025','agent2_ingestion','done','Live surprise input evaluated via agent1->agent2->agent3');
-INSERT INTO "dim_sources" VALUES('SURPRISE_AS_TXT','Live Surprise Input (SURPRISE_AS_TXT)','local://File=surprise_3_assamese_advisory.txt','Web_Portal','2025-26','agent2_ingestion','done','Live surprise input evaluated via agent1->agent2->agent3');
 CREATE TABLE extraction_runs (
     run_id TEXT PRIMARY KEY,
     source_id TEXT NOT NULL,
@@ -98,44 +92,38 @@ CREATE TABLE extraction_runs (
     error_message TEXT,
     FOREIGN KEY (source_id) REFERENCES dim_sources(source_id)
 );
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_51f31b2f','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.68,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_f3528210','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.52,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_16e93fa8','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.52,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_8473928b','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.52,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_6a1e1581','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_3c80e3f3','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_c65d6698','SRC_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,1,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_02_073cadbf','SRC_02','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_03_3cd09c40','SRC_03','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_04_2e5d81bc','SRC_04','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,1,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_12d01d97','SRC_06','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_c7df41fb','SRC_06','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_f0e67d97','SRC_06','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_92112fa4','SRC_06','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_07_5215d7a4','SRC_07','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_07_7f3aec25','SRC_07','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_08_a0f75e73','SRC_08','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_08_2915aeaf','SRC_08','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_09_f3bcf877','SRC_09','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_10_7b591936','SRC_10','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_29706285','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_c2289165','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_56df175c','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_6a936473','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_0a1863b5','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_671b5c77','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_12_91928b31','SRC_12','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,1,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_12_ed4785a0','SRC_12','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,1,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_13_d5270185','SRC_13','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,1,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_14_d76ccdd6','SRC_14','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,1,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_15_2cc9a2e6','SRC_15','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,1,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SRC_15_9e21e352','SRC_15','agent2b_live_gis','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,1,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SURPRISE_01_20ce7df7','SURPRISE_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.52,420,1,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SURPRISE_01_77dd0829','SURPRISE_01','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SURPRISE_HTML_ff0fd20a','SURPRISE_HTML','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SURPRISE_HTML_16efffa6','SURPRISE_HTML','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SURPRISE_AS_TXT_2f6d0977','SURPRISE_AS_TXT','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,0,0,'COMPLETED',NULL);
-INSERT INTO "extraction_runs" VALUES('RUN_SURPRISE_AS_TXT_32a5bfa5','SURPRISE_AS_TXT','agent2_ingestion','Qwen/Qwen2.5-72B-Instruct','2026-11-01T08:57:35.775012+00:00','2026-11-01T08:57:35.775012+00:00',112.51,420,1,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_51f31b2f','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',17.02,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_f3528210','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',20.39,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_16e93fa8','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',19.65,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_8473928b','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',18.34,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_6a1e1581','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',77.4,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_3c80e3f3','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',76.35,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_01_c65d6698','SRC_01','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',47.54,0,1,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_02_073cadbf','SRC_02','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',47.99,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_03_3cd09c40','SRC_03','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',27.37,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_04_2e5d81bc','SRC_04','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',40.29,0,1,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_12d01d97','SRC_06','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',14.34,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_c7df41fb','SRC_06','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',13.35,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_f0e67d97','SRC_06','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',13.62,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_06_92112fa4','SRC_06','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',3.56,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_07_5215d7a4','SRC_07','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.781853+00:00','2026-11-23T17:33:47.781853+00:00',16.0,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_07_7f3aec25','SRC_07','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',18.61,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_08_a0f75e73','SRC_08','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',16.07,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_08_2915aeaf','SRC_08','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',14.52,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_09_f3bcf877','SRC_09','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',2.42,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_10_7b591936','SRC_10','agent2_ingestion','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',3.47,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_29706285','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',3.47,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_c2289165','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',2.07,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_56df175c','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',3.13,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_6a936473','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',2.85,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_0a1863b5','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',2.28,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_11_671b5c77','SRC_11','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',15.33,0,0,0,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_12_91928b31','SRC_12','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',22.61,0,0,1,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_12_ed4785a0','SRC_12','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',22.79,0,0,1,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_13_d5270185','SRC_13','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',22.0,0,0,1,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_14_d76ccdd6','SRC_14','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',8.9,0,0,1,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_15_2cc9a2e6','SRC_15','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',52.86,0,0,1,'COMPLETED',NULL);
+INSERT INTO "extraction_runs" VALUES('RUN_SRC_15_9e21e352','SRC_15','agent2b_live_gis','Qwen/Qwen2.5-7B-Instruct','2026-11-23T17:33:47.784501+00:00','2026-11-23T17:33:47.784501+00:00',16.58,0,0,1,'COMPLETED',NULL);
 CREATE TABLE fact_agricultural_records (
     record_id INTEGER PRIMARY KEY AUTOINCREMENT,
     record_hash TEXT NOT NULL UNIQUE,
@@ -198,16 +186,47 @@ INSERT INTO "fact_agricultural_records" VALUES(29,'d5270185ef7af1b90c89ef69','SR
 INSERT INTO "fact_agricultural_records" VALUES(30,'d76ccdd67792c1d22d404f09','SRC_14','Geospatial_GIS','RUN_SRC_14_d76ccdd6','agent2b_live_gis','WMS=bhoomigeoportal-nbsslup.in;Layer=Soil_pH','LGD_AS_291','682b1b09071c','2023','Mean_Topsoil_pH','5.4','pH',5.4,'pH','VALIDATED');
 INSERT INTO "fact_agricultural_records" VALUES(31,'2cc9a2e648f2a7d8bda481a1','SRC_15','Geospatial_GIS','RUN_SRC_15_2cc9a2e6','agent2b_live_gis','WMS=nesdr.gov.in;Dataset=148_LULC','LGD_AS_00','0088fb21f5c9','2022-23','Spatial_Resolution_Meters','24.0','meters',24.0,'meters','VALIDATED');
 INSERT INTO "fact_agricultural_records" VALUES(32,'9e21e352a965a006f540a16e','SRC_15','Geospatial_GIS','RUN_SRC_15_9e21e352','agent2b_live_gis','WMS=astec.assam.gov.in;Layer=BoroRice_CropMask','LGD_AS_297','e1bfe9d5fee8','2023-24','Mapped_Rice_Area','68,400','Hectares',68400.0,'ha','VALIDATED');
-INSERT INTO "fact_agricultural_records" VALUES(33,'20ce7df70f65ce7f23210065','SURPRISE_01','Document_PDF','RUN_SURPRISE_01_20ce7df7','agent2_ingestion','Page=1;Table=S1;Row=1','LGD_AS_300','23f0bb24f0f4','2024-25','Area','114,200*','Hectares',114200.0,'ha','SELF_CORRECTED');
-INSERT INTO "fact_agricultural_records" VALUES(34,'77dd08293721c3bd5072f099','SURPRISE_01','Document_PDF','RUN_SURPRISE_01_77dd0829','agent2_ingestion','Page=1;Table=S1;Row=2','LGD_AS_297','47e8938bc4db','2024-25','Production','42,800','Tonnes',42800.0,'tonnes','VALIDATED');
-INSERT INTO "fact_agricultural_records" VALUES(35,'ff0fd20ab243a1fe5dbe4b97','SURPRISE_HTML','Web_Portal','RUN_SURPRISE_HTML_ff0fd20a','agent2_ingestion','File=surprise_2_aau_bulletin.html;TableRow=1','LGD_AS_291','09556c6dee01','2025','Recommended_Yield_Irrigated','34.0','q/ha',3400.0,'kg/ha','VALIDATED');
-INSERT INTO "fact_agricultural_records" VALUES(36,'16efffa6bb8766a08265a6e5','SURPRISE_HTML','Web_Portal','RUN_SURPRISE_HTML_16efffa6','agent2_ingestion','File=surprise_2_aau_bulletin.html;TableRow=2','LGD_AS_280','b3a7a8ff9e4e','2025','Modal_Mandi_Price','2,350','Rs/Quintal',2350.0,'Rs/Quintal','VALIDATED');
-INSERT INTO "fact_agricultural_records" VALUES(37,'2f6d0977df415acba828fbb5','SURPRISE_AS_TXT','Web_Portal','RUN_SURPRISE_AS_TXT_2f6d0977','agent2_ingestion','File=surprise_3_assamese_advisory.txt;Line=2','LGD_AS_290','48e5e0708071','2025-26','Potential_Yield','54.5','q/ha',5450.0,'kg/ha','VALIDATED');
-INSERT INTO "fact_agricultural_records" VALUES(38,'32a5bfa522a36f15cf221fac','SURPRISE_AS_TXT','Web_Portal','RUN_SURPRISE_AS_TXT_32a5bfa5','agent2_ingestion','File=surprise_3_assamese_advisory.txt;Line=3','LGD_AS_291','2018dedce162','2025-26','Area','18,450*','Hectares',18450.0,'ha','SELF_CORRECTED');
+CREATE TABLE source_fetch_log (
+    fetch_id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL,
+    source_id TEXT NOT NULL,
+    source_url TEXT NOT NULL,
+    adapter_type TEXT NOT NULL,
+    fetched_at_utc TEXT NOT NULL,
+    http_status INTEGER,
+    etag TEXT,
+    last_modified TEXT,
+    content_sha256 TEXT,
+    bytes_fetched INTEGER NOT NULL DEFAULT 0,
+    records_extracted INTEGER NOT NULL DEFAULT 0,
+    records_committed INTEGER NOT NULL DEFAULT 0,
+    records_rejected INTEGER NOT NULL DEFAULT 0,
+    fetch_status TEXT NOT NULL CHECK (fetch_status IN ('UPDATED', 'NOT_MODIFIED', 'PARTIAL', 'FAILED', 'SKIPPED_NON_DATA')),
+    error_message TEXT,
+    FOREIGN KEY (source_id) REFERENCES dim_sources(source_id),
+    FOREIGN KEY (run_id) REFERENCES extraction_runs(run_id)
+);
+CREATE TABLE source_health (
+    source_id TEXT PRIMARY KEY,
+    health_status TEXT NOT NULL CHECK (health_status IN ('HEALTHY', 'DEGRADED', 'UNHEALTHY', 'UNKNOWN')) DEFAULT 'UNKNOWN',
+    last_checked_at_utc TEXT,
+    last_success_at_utc TEXT,
+    last_data_changed_at_utc TEXT,
+    last_http_status INTEGER,
+    consecutive_failures INTEGER NOT NULL DEFAULT 0,
+    last_error TEXT,
+    last_etag TEXT,
+    last_modified TEXT,
+    last_content_sha256 TEXT,
+    refresh_interval_minutes INTEGER NOT NULL DEFAULT 1440 CHECK (refresh_interval_minutes > 0),
+    FOREIGN KEY (source_id) REFERENCES dim_sources(source_id)
+);
 CREATE INDEX idx_fact_source ON fact_agricultural_records(source_id);
 CREATE INDEX idx_fact_agent ON fact_agricultural_records(extracting_agent);
 CREATE INDEX idx_fact_location ON fact_agricultural_records(location_id);
 CREATE INDEX idx_fact_crop ON fact_agricultural_records(crop_id);
+CREATE INDEX idx_fetch_log_source ON source_fetch_log(source_id, fetched_at_utc);
+CREATE INDEX idx_source_health_status ON source_health(health_status);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('fact_agricultural_records',38);
+INSERT INTO "sqlite_sequence" VALUES('fact_agricultural_records',32);
 COMMIT;
