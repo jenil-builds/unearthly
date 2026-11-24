@@ -14,3 +14,9 @@
 * **Implementation Status & Known Limitations:**
   * **Status:** `done` (`M14 = 1.000`, `M15 = 1.000`, `M16 = 0.000`, `BONUS_EVAL_1 = 1.000`, `BONUS_EVAL_2 = 1.000`).
   * **Limitations:** State-wide aggregate rows without a specific district map to `LGD_AS_00` (`Assam (State Total)`).
+
+---
+
+## Live Ingestion Upgrade (`ingestion/grounding.py`, `ingestion/validator.py`)
+* Enforces `VerbatimGroundingGate` with decimal-aware numeric boundary regex and explicit `is_structured_table` verification.
+* Adds deterministic `t/ha` (x 1000 -> `kg/ha`) conversion, constrained 35-district AI LGD disambiguation, agronomic sanity bounds, unit-coercion blocking (rejects `%` -> `scale`), and a per-batch Critic call cap (`max_critic_calls_per_batch=5`).

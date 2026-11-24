@@ -12,3 +12,9 @@
 * **Implementation Status & Known Limitations:**
   * **Status:** `done` (100% implemented and unit-tested in `test_all_agents.py`).
   * **Limitations:** Extensionless binary files without `source_group` metadata default to `Document_PDF` routing.
+
+---
+
+## Live Ingestion Upgrade (`ingestion/pipeline.py`)
+* Strips HTML `<head>`, `<script>`, `<style>`, and `<noscript>` boilerplate before LLM triage (`_build_triage_preview`).
+* Calls `AIRuntime` (`AGENT1_MODEL`, default `openai/gpt-oss-20b`) to detect 404/login/navigation pages and short-circuit them as `SKIPPED_NON_DATA` (marked `DEGRADED` in `source_health` without caching non-data hashes).

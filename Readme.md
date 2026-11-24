@@ -1,93 +1,128 @@
-# AgriAgent Phase 2 — Team 3 (Assam Agricultural Knowledge Base)
+# AgriAgents Assam - Multi-Agent & Source-of-Truth Agricultural Knowledge Base
 
-## 1. Multi-Agent Architecture (`MultiAgentOrchestrator`)
-
-Our Phase 2 system implements a decoupled, concurrent 4-module multi-agent pipeline (`new_pipeline_orchestrator.py`) that routes, extracts, self-corrects, and normalizes multi-modal Assam agricultural sources into an idempotent SQLite star-schema (`db/assam_agri_phase2.db`).
-
-```text
-                  +-----------------------------------------------+
-                  |     CLI / Manifest / Surprise Input Files     |
-                  |     (python run.py --input <file_or_dir>)     |
-                  +-----------------------+-----------------------+
-                                          |
-                                          v
-                  +-----------------------------------------------+
-                  |      Agent 1: agent1_classifier.py            |
-                  |  (Modality, Extension & Assamese Script       |
-                  |   Detection: \u0980-\u09FF -> Target Router)  |
-                  +-----------------------+-----------------------+
-                                          |
-               +--------------------------+--------------------------+
-               | (Document_PDF / Web_Portal)                         | (Database_Dashboard / Geospatial_GIS)
-               v                                                     v
-+--------------------------------------+             +--------------------------------------+
-|     Agent 2: agent2_ingestion.py     |             |    Agent 2B: agent2b_live_gis.py     |
-|  - TabularPDF role (pdfplumber/CSV)  |             |  - LiveMandi role (AMIU Jorhat DOM)  |
-|  - WebPortal role (BS4 + Assamese)   |             |  - GeoSpatial role (WMS/Layer Meta)  |
-|  - AISemanticExtractor (Qwen2.5-72B) |             +-------------------+------------------+
-+------------------+-------------------+                                 |
-                   +--------------------------+--------------------------+
-                                              |
-                                              v
-                  +-----------------------------------------------+
-                  |         Agent 3: agent3_task.py               |
-                  |  - SelfCorrectionNode (Strips '*' & NaN)      |
-                  |  - Assam LGD Resolver (35+ aliases -> LGD_AS) |
-                  |  - SI Unit Standardizer (q/ha -> kg/ha, etc.) |
-                  |  - Natural-Key & SHA-256 Deduplication        |
-                  +-----------------------+-----------------------+
-                                          |
-                                          v
-                  +-----------------------------------------------+
-                  |    SQLite Star-Schema (db/assam_agri_phase2)  |
-                  |    + Reproducible SQL Dump (db/dump.sql)      |
-                  +-----------------------------------------------+
-```
+A production-grade, fault-isolated multi-agent ingestion and normalization system for Assam agricultural data (English & Assamese). Combines LLM-assisted triage, schema mapping, and entity disambiguation with deterministic **zero-fabrication grounding gates** and WAL-mode SQLite persistence.
 
 ---
 
-## 2. Quick-Start Commands for Live Evaluation & Defense
+## 1. Architecture Overview
+
+### A. Source-of-Truth Live Ingestion Pipeline (`ingestion/`)
+```text
+[docs/source_agent_map.csv (15 Assam Sources)]
+        |
+        v
+RefreshScheduler (--refresh-all | --refresh-source | --refresh-due | --schedule)
+        |  Per-Source Fault Isolation (ThreadPoolExecutor)
+        v
+SafeHTTPClient (Redirect-Safe SSRF Check, ETag/304, 25 MB Cap, SHA-256)
+        |
+        v
+Agent 1 AI Triage (HTML boilerplate stripping -> SKIPPED_NON_DATA on 404/login/nav)
+        |
+        v
+Modular Adapters (csv_feed | html_table | pdf_table | unstructured_text | wms_gis)
+  +-- AISchemaMapper (AI Schema-Once Table Mapping + Citation-Anchored Extractive LLM)
+        |
+        v
+VerbatimGroundingGate (Decimal-aware numeric boundaries + structured-table verification)
+        |
+        v
+ZeroFabricationValidator (Agent 3)
+  |-- Deterministic SI Unit & LGD Normalization (agent3_task.py: q/ha, t/ha, Rs. Lakh, etc.)
+  |-- Constrained AI LGD Disambiguation (Closed 35-District Assam LGD Catalog)
+  +-- Grounded AI Critic (Unit-coercion blocking, agronomic bounds, per-batch call cap)
+        |
+        v
+SQLite WAL Storage (fact_agricultural_records, extraction_runs, source_fetch_log, source_health)
+```
+
+### B. Phase 2 Evaluation Pipeline (`MultiAgentOrchestrator`)
+`new_pipeline_orchestrator.py` routes held-out benchmark cases (`eval/cases/`) and unseen surprise files (`--input`) through `agent1_classifier.py` -> `agent2_ingestion.py` / `agent2b_live_gis.py` -> `agent3_task.py`, committing to `db/assam_agri_phase2.db` and exporting `db/dump.sql` + `logs/automation_log.csv`.
+
+---
+
+## 2. Setup & Configuration
 
 ```bash
-# 1. Run unit tests across all 4 independent agent modules:
-python test_all_agents.py
+pip install -r requirements.txt
+cp .env.example .env   # Windows PowerShell: Copy-Item .env.example .env
+```
 
-# 2. Run the full 32-case held-out benchmark + surprise suite (generates eval/phase2_metrics.csv):
-python eval/run_eval.py
-
-# 3. Run unseen surprise inputs (CSV, HTML, PDF, or Assamese TXT):
-python run.py --input surprise_samples/
-
-# 4. Run a single source from the 15-source manifest (isolated execution):
-python run_single.py --source SRC_01 --reset-db
-
-# 5. Trigger live fault injection & SelfCorrectionNode recovery:
-python run.py --inject-fault
-
-# 6. Run live provenance trace-back on 3 random database records (Metric M17):
-python tools/inspect_row_provenance.py
-
-# 7. Run empirical open-source PDF extraction benchmark (Section 2 challenge):
-python tools/benchmark_open_source.py
+Add your `GROQ_API_KEY` (or another OpenAI-compatible provider key) to `.env`, then verify connectivity:
+```bash
+python -c "from ingestion.ai_runtime import AIRuntime; rt = AIRuntime(); print(rt.call_json('agent1_classifier', 'Return JSON only.', 'Return a JSON object with key status set to ok'))"
 ```
 
 ---
 
-## 3. Repository Structure & Protocol Deliverables
+## 3. Quick-Start CLI Commands
 
-| Deliverable Path | Protocol Role & Metrics Covered |
+### Live Source-of-Truth Refresh & Health Monitoring
+```bash
+# Manually refresh specific sources:
+python run.py --refresh-source SRC_02 SRC_11 --force
+
+# Manually refresh all 15 registered sources (fault-isolated):
+python run.py --refresh-all
+
+# Refresh a single source live via run_single.py:
+python run_single.py --source SRC_02 --live --force
+
+# Cron-friendly scheduled pass (refreshes only due sources):
+python run.py --refresh-due
+
+# Continuous scheduled daemon:
+python run.py --schedule --poll-seconds 300
+
+# View source health & freshness report (table or JSON):
+python run.py --source-health
+python run.py --source-health --json
+```
+
+### Testing & Phase 2 Evaluation
+```bash
+# Run full unit, integration & FSM hardening test suite (19 tests):
+python -m unittest discover -s tests -v
+
+# Run 32-case held-out benchmark (generates eval/phase2_metrics.csv):
+python eval/run_eval.py
+
+# Run isolated single-source evaluation commit:
+python run_single.py --source SRC_01 --reset-db
+
+# Trigger live fault injection & SelfCorrectionNode recovery:
+python run.py --inject-fault
+
+# Inspect database row provenance (Metric M17):
+python tools/inspect_row_provenance.py
+```
+
+---
+
+## 4. Repository Structure
+
+| Path | Description |
 | :--- | :--- |
-| `agent1_classifier.py` | **Agent 1 (`Agent1Classifier`)**: Modality router & tool selector (`M6`, `M7`). |
-| `agent2_ingestion.py` | **Agent 2 (`Agent2Ingestion` & `AISemanticExtractor`)**: PDF, CSV, HTML & Assamese text extraction (`M3`, `M5`). |
-| `agent2b_live_gis.py` | **Agent 2B (`Agent2BLiveGIS`)**: AMIU Live Mandi & Web-GIS metadata extraction (`M3`, `M9`). |
-| `agent3_task.py` | **Agent 3 (`Agent3TaskNormalizer`)**: Self-correction node, LGD mapping, SI unit conversion (`M8`, `M14`–`M16`). |
-| `new_pipeline_orchestrator.py` | **Orchestrator (`MultiAgentOrchestrator`)**: Concurrent `ThreadPoolExecutor` pipeline & SQLite commit engine (`M11`–`M13`). |
-| `docs/source_agent_map.csv` | Complete 15-source mapping table (`M1 = 1.000`, `M2 = 1.000`). |
-| `docs/challenge.md` | Deep dive into multi-header PDF & Assamese entity resolution challenges + literature review. |
-| `docs/agents/*.md` | Individual Agent Cards detailing inputs, outputs, tools, models, and limitations. |
-| `eval/cases/` & `eval/reference/` | 32 held-out test cases and ground-truth references (`0` SHA-256 overlap with SFT split). |
-| `eval/run_eval.py` | Official evaluation suite producing `eval/phase2_metrics.csv` (`M1`–`M18` + Bonus). |
-| `eval/adapter_comparison.csv` | Base `Qwen2.5-7B-Instruct` vs. `Qwen2.5-7B-AssamAgri-QLoRA` comparison (`M18 = +0.066`). |
-| `db/schema.sql` & `db/dictionary.md` | Relational DDL with `CHECK` & composite `UNIQUE` natural-key constraints + data dictionary. |
-| `db/assam_agri_phase2.db` & `db/dump.sql` | Populated SQLite database and full SQL dump (`38` validated records, `0` duplicates). |
-| `logs/automation_log.csv` | Per-run telemetry logging automation status, retries, latency (ms), tokens, and trajectories. |
+| `run.py`, `run_single.py` | Official CLI entry points for live source-of-truth refreshes and Phase 2 evaluation. |
+| `ingestion/config.py`, `ai_runtime.py` | Zero-dependency `.env` loader, per-agent model routing, provider failover, and JSON extraction. |
+| `ingestion/http_client.py` | Redirect-safe SSRF-protected HTTP/local fetch client (`ETag`/`304`, 25 MB cap, SHA-256). |
+| `ingestion/base_adapter.py`, `adapters/` | `BaseSourceAdapter`, `AdapterRegistry`, `AISchemaMapper`, and 5 isolated connectors (`csv_feed`, `html_table`, `pdf_table`, `unstructured_text`, `wms_gis`). |
+| `ingestion/grounding.py`, `validator.py` | `VerbatimGroundingGate`, constrained 35-district AI LGD disambiguator, and unit-coercion-safe AI Critic. |
+| `ingestion/pipeline.py`, `storage.py` | Fault-isolated `SourceOfTruthPipeline` and WAL-mode SQLite persistence with `BEGIN IMMEDIATE` transactions. |
+| `ingestion/scheduler.py`, `monitor.py` | Manual/cron/daemon refresh scheduler and `HEALTHY`/`DEGRADED`/`UNHEALTHY`/staleness health monitor. |
+| `agent1_classifier.py`, `agent2_ingestion.py`, `agent2b_live_gis.py`, `agent3_task.py` | Core 4-agent modules for classification, extraction, live/GIS parsing, and deterministic normalization. |
+| `new_pipeline_orchestrator.py` | Concurrent Phase 2 evaluation orchestrator. |
+| `db/` | `schema.sql` (7 tables), `dictionary.md`, `assam_agri_phase2.db`, and `dump.sql`. |
+| `docs/` | `source_agent_map.csv`, `challenge.md`, and individual Agent Cards (`docs/agents/*.md`). |
+| `eval/` | 32 held-out cases (`cases/`, `reference/`), `run_eval.py`, `phase2_metrics.csv`, and `adapter_comparison.csv`. |
+| `tests/` | 19 unit, integration, and FSM hardening tests (`test_phase2` through `test_phase5`). |
+| `tools/` | `inspect_row_provenance.py` and `benchmark_open_source.py`. |
+
+---
+
+## 5. Adding a New Source Connector
+
+1. Subclass `BaseSourceAdapter` (`ingestion/base_adapter.py`) in `ingestion/adapters/` with a unique `adapter_type`.
+2. Implement `fetch()` (via `SafeHTTPClient`) and `parse()` (via `AISchemaMapper`).
+3. Register the class in `build_default_registry()` (`ingestion/adapters/__init__.py`).
+4. Add the source to `docs/source_agent_map.csv` and add an isolated unit test in `tests/`.

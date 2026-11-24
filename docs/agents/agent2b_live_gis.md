@@ -14,3 +14,9 @@
   * **Model:** `Qwen/Qwen2.5-72B-Instruct` for normalizing spatial layer descriptors into structured schema metrics.
 * **Implementation Status & Known Limitations:**
   * **Status:** `done` for `SRC_11` (live mandi prices); `partial` for `SRC_12`–`SRC_15` (WMS layer metadata and published area summaries extracted in Phase 2; full GeoTIFF raster pixel zonal statistics scheduled for Phase 3).
+
+---
+
+## Live Ingestion Upgrade (`ingestion/adapters/wms_gis_adapter.py`)
+* Implements `WMSGISAdapter` (`adapter_type='wms_gis'`) backed by `SafeHTTPClient` and synchronized `AIRuntime` (`AGENT2B_MODEL`, default `openai/gpt-oss-120b`).
+* Automatically binds the verified fetch snapshot date (`fetched_at_utc[:10]`) as `time_period` when live market dashboards (e.g., `SRC_11` AMIU Jorhat) omit per-row date columns.

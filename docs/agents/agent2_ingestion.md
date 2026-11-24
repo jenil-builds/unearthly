@@ -16,3 +16,9 @@
 * **Implementation Status & Known Limitations:**
   * **Status:** `done` (`M3 = 1.000`, `M5 = 1.000`, `M3_BONUS_NON_EN = 1.000`).
   * **Limitations:** Scanned image-only PDFs without embedded text layers require external OCR pre-processing before `pdfplumber` table extraction.
+
+---
+
+## Live Ingestion Upgrade (`ingestion/adapters/`)
+* Modularized into isolated `BaseSourceAdapter` connectors (`csv_feed`, `html_table`, `pdf_table`, `unstructured_text`) backed by `SafeHTTPClient` (redirect-safe SSRF checks, `ETag`/`304`, 25 MB cap, SHA-256).
+* Uses `AISchemaMapper` (`AGENT2_MODEL`, default `openai/gpt-oss-120b`) for **AI Schema-Once Table Mapping** (1 LLM call per table, flagged `is_structured_table=True`) and **Citation-Anchored Extractive LLM** for unstructured Assamese/English prose.
